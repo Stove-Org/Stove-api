@@ -1,6 +1,9 @@
 server:
   port: 8080
 
+jwt:
+  secret: ENC(655UoZCEmU8akaODRke7SA==)
+
 spring:
   cache:
     type: redis
