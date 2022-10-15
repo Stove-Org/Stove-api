@@ -1,8 +1,9 @@
-package gg.stove.auth.config;
+package gg.stove.utils;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -13,12 +14,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Component
 public class JwtTokenProvider {
     @Value("${jwt.secret}")
-    private static String JWT_SECRET;
-    private static final int JWT_EXPIRATION_MS = 604800000;
+    private String JWT_SECRET;
+    private final int JWT_EXPIRATION_MS = 604800000;
 
-    public static String generateToken(Long memberId) {
+    public String generateToken(Long memberId) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
@@ -30,7 +32,7 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    public static String getUserIdFromJWT(String token) {
+    public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
             .setSigningKey(JWT_SECRET)
             .parseClaimsJws(token)
@@ -39,7 +41,7 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public static boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
             return true;

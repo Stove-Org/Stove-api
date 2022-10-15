@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import gg.stove.auth.domain.AuthUser;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;
+import gg.stove.utils.JwtTokenProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserRepository useRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void doFilterInternal(
@@ -33,8 +35,8 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
         if (token != null && token.startsWith(tokenPrefix)) {
             token = token.substring(tokenPrefix.length()).strip();
-            if (JwtTokenProvider.validateToken(token)) {
-                Long userId = Long.valueOf(JwtTokenProvider.getUserIdFromJWT(token));
+            if (jwtTokenProvider.validateToken(token)) {
+                Long userId = Long.valueOf(jwtTokenProvider.getUserIdFromJWT(token));
                 UserEntity user = useRepository.findById(userId).orElseThrow();
                 AuthUser authUser = new AuthUser(user);
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

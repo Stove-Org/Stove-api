@@ -4,7 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import gg.stove.auth.config.JwtTokenProvider;
+import gg.stove.utils.JwtTokenProvider;
 import gg.stove.auth.dto.LoginRequest;
 import gg.stove.auth.dto.SignupRequest;
 import gg.stove.domain.user.entity.UserEntity;
@@ -18,6 +18,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
     public void signup(@NonNull SignupRequest signupRequest) {
@@ -37,6 +38,6 @@ public class AuthService {
             throw new IllegalArgumentException();
         }
 
-        return JwtTokenProvider.generateToken(userEntity.getId());
+        return jwtTokenProvider.generateToken(userEntity.getId());
     }
 }
