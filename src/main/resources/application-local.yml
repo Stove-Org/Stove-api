@@ -22,6 +22,6 @@ spring:
         default_batch_fetch_size: 100
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
+    url: ENC(Lz4D5vDGF9FUctGPAMdmbqEkxBqkEcuV5hdDDyQ69fzJNd+ZTtSJq0JsLuFK4IYpa4SgerAF1MUNVNdQ7/HtZw==)
+    username: ENC(uT/vxA3BYhq6z8lLKcHaRA==)
+    password: ENC(6Yzd0d5qKhZhMR0ko/BGHA==)
