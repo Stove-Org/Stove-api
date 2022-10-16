@@ -61,6 +61,9 @@ dependencies {
     // Jasypt
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 
+    // S3
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.315'
+
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 }
