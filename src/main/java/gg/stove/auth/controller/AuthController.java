@@ -15,17 +15,17 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping()
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping("/api/v1/signup")
+    @PostMapping("/api/v1/auth/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public void signup(@RequestBody @Valid SignupRequest signupRequest) {
         authService.signup(signupRequest);
     }
 
-    @PostMapping("/api/v1/login")
+    @PostMapping("/api/v1/auth/login")
     public String login(@RequestBody @Valid LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
