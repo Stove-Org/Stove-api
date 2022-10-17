@@ -45,6 +45,9 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    // H2
+    runtimeOnly 'com.h2database:h2'
+
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'it.ozimov:embedded-redis:0.7.2'
