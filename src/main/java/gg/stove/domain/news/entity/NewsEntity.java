@@ -36,7 +36,7 @@ public class NewsEntity {
     private String imageUrl;
 
     @Column(name = "published_at")
-    private LocalDateTime publishedAt; // "2022.10.15. 오후 06:22", // DB Time Stamp로 저장하고 변환해서 뿌리자.
+    private LocalDateTime publishedAt;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
