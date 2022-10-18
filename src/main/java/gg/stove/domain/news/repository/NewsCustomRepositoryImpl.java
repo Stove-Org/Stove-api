@@ -12,6 +12,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.QNewsViewResponse;
 import gg.stove.domain.news.entity.NewsEntity;
+import gg.stove.utils.CustomPageImpl;
 
 import static gg.stove.domain.news.entity.QNewsEntity.newsEntity;
 
@@ -45,6 +46,6 @@ public class NewsCustomRepositoryImpl extends QuerydslRepositorySupport implemen
             .limit(pageable.getPageSize())
             .fetch();
 
-        return new PageImpl<>(results, pageable, countQuery.fetchCount());
+        return new CustomPageImpl<>(results, pageable, countQuery.fetchCount());
     }
 }
