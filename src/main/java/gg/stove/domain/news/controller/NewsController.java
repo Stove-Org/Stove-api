@@ -55,4 +55,9 @@ public class NewsController {
     public void deleteNews(@PathVariable Long newsId) {
         newsService.deleteNews(newsId);
     }
+
+    @PostMapping("/api/v1/news/{newsId}/view")
+    public void increaseViewCount(@PathVariable Long newsId) {
+        newsService.increaseViewCount(newsId);
+    }
 }

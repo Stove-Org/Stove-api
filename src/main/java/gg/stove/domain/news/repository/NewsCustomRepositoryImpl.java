@@ -37,7 +37,8 @@ public class NewsCustomRepositoryImpl extends QuerydslRepositorySupport implemen
                     newsEntity.headline,
                     newsEntity.linkUrl,
                     newsEntity.imageUrl,
-                    newsEntity.publishedAt
+                    newsEntity.publishedAt,
+                    newsEntity.viewCount
                 )
             )
             .offset(pageable.getOffset())

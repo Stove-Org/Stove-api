@@ -39,4 +39,9 @@ public class NewsService {
     public void deleteNews(Long newsId) {
         newsRepository.deleteById(newsId);
     }
+
+    public void increaseViewCount(Long newsId) {
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
+        newsEntity.increaseViewCount();
+    }
 }

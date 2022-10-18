@@ -37,6 +37,9 @@ public class NewsEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "view_count", columnDefinition = "integer default 0")
+    private Long viewCount = 0L;
+
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
@@ -76,5 +79,9 @@ public class NewsEntity {
         if (publishedAt != null) {
             this.publishedAt = DateUtil.convertWithUntilMinuteString(publishedAt);
         }
+    }
+
+    public void increaseViewCount() {
+        this.viewCount++;
     }
 }
