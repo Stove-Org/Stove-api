@@ -69,6 +69,7 @@ class NewsServiceTest {
         then(newsViewResponse.getLinkUrl()).isEqualTo("linkUrl");
         then(newsViewResponse.getImageUrl()).isEqualTo("imageUrl");
         then(newsViewResponse.getPublishedAt()).isEqualTo("2022.10.15 오후 06:22");
+        then(newsViewResponse.getViewsCount()).isEqualTo(0);
     }
 
     @Test
