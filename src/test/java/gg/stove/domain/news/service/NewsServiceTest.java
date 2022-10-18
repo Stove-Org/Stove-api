@@ -119,4 +119,23 @@ class NewsServiceTest {
         // then
         then(newsRepository.count()).isEqualTo(0);
       }
+
+    @Test
+    void name() {
+        // given
+        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
+            .headline("headline")
+            .linkUrl("linkUrl")
+            .imageUrl("imageUrl")
+            .publishedAt("2022-10-15 18:22")
+            .build();
+
+        newsService.createNews(createNewsRequest);
+        Long id = newsRepository.findAll().get(0).getId();
+
+        // when, then
+        then(newsRepository.findById(id).get().getViewCount()).isEqualTo(0L);
+        newsService.increaseViewCount(id);
+        then(newsRepository.findById(id).get().getViewCount()).isEqualTo(1L);
+      }
 }
