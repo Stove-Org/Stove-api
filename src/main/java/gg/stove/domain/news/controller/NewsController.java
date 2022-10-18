@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import gg.stove.annotation.AdminCheck;
+import gg.stove.auth.annotation.AdminCheck;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
 import gg.stove.domain.news.dto.NewsViewResponse;
