@@ -9,7 +9,7 @@ public class DateUtil {
     public static final DateTimeFormatter DATE_TIME_FORMATTER_UNTIL_MINUTE =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withLocale(Locale.KOREA);
     public static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_WEEK =
-        DateTimeFormatter.ofPattern("MMMM d일 E HH:mm").withLocale(Locale.KOREA);
+        DateTimeFormatter.ofPattern("yyyy.MM.dd a hh:mm").withLocale(Locale.KOREA);
 
     public static LocalDateTime convertWithUntilMinuteString(String s) {
         return LocalDateTime.parse(s, DATE_TIME_FORMATTER_UNTIL_MINUTE);
