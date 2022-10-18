@@ -47,6 +47,7 @@ public class NewsService {
         newsRepository.deleteById(newsId);
     }
 
+    @Transactional
     public void increaseViewCount(Long newsId) {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
         newsEntity.increaseViewCount();
