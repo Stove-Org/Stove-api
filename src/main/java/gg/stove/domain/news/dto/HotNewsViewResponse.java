@@ -1,11 +1,17 @@
 package gg.stove.domain.news.dto;
 
+import java.io.Serializable;
+
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.DateUtil;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
-public class HotNewsViewResponse {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class HotNewsViewResponse implements Serializable {
 
     private Long id;
 
