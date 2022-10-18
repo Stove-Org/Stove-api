@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,5 +47,12 @@ public class NewsController {
     @PutMapping("/api/v1/news/{newsId}")
     public void updateNews(@PathVariable Long newsId, @RequestBody @Valid UpdatedNewsRequest request) {
         newsService.updateNews(newsId, request);
+    }
+
+    @AdminCheck
+    @DeleteMapping("/api/v1/news/{newsId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteNews(@PathVariable Long newsId) {
+        newsService.deleteNews(newsId);
     }
 }

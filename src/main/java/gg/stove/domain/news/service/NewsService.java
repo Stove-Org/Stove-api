@@ -35,4 +35,8 @@ public class NewsService {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
         newsEntity.update(request);
     }
+
+    public void deleteNews(Long newsId) {
+        newsRepository.deleteById(newsId);
+    }
 }

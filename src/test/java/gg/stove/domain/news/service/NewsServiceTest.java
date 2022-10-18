@@ -99,4 +99,24 @@ class NewsServiceTest {
         then(newsEntity.getImageUrl()).isEqualTo("imageUrl1");
         then(newsEntity.getPublishedAt()).isEqualTo(LocalDateTime.of(2021, 9,14, 17, 10 ));
     }
+
+    @Test
+    void deleteNews() {
+        // given
+        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
+            .headline("headline")
+            .linkUrl("linkUrl")
+            .imageUrl("imageUrl")
+            .publishedAt("2022-10-15 18:22")
+            .build();
+
+        newsService.createNews(createNewsRequest);
+        Long id = newsRepository.findAll().get(0).getId();
+
+        // when
+        newsService.deleteNews(id);
+
+        // then
+        then(newsRepository.count()).isEqualTo(0);
+      }
 }
