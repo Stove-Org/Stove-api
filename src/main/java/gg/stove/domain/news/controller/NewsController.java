@@ -1,5 +1,6 @@
 package gg.stove.domain.news.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import gg.stove.annotation.AdminCheck;
 import gg.stove.domain.news.dto.CreateNewsRequest;
+import gg.stove.domain.news.dto.HotNewsViewResponse;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.UpdatedNewsRequest;
 import gg.stove.domain.news.service.NewsService;
@@ -34,6 +36,11 @@ public class NewsController {
     ) {
         Pageable pageable = PageRequest.of(offset, limit);
         return newsService.getNewsPage(pageable);
+    }
+
+    @GetMapping("/api/v1/news/hot")
+    public List<HotNewsViewResponse> getHotNews() {
+        return newsService.getHotNews();
     }
 
     @AdminCheck
