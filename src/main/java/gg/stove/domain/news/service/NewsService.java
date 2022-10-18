@@ -11,6 +11,9 @@ import javax.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import gg.stove.cache.annotation.RedisCacheEvict;
+import gg.stove.cache.annotation.RedisCacheEvicts;
+import gg.stove.cache.annotation.RedisCacheable;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
 import gg.stove.domain.news.dto.NewsViewResponse;
@@ -28,21 +31,34 @@ public class NewsService {
     private final NewsRepository newsRepository;
 
     @Transactional
+    @RedisCacheEvicts(evicts = {
+        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+    })
     public void createNews(CreateNewsRequest request) {
         NewsEntity newsEntity = request.toNewsEntity();
         newsRepository.save(newsEntity);
     }
 
+    @RedisCacheable(key = "NewsService.getNewsPage", expireSecond = 1800L)
     public Page<NewsViewResponse> getNewsPage(Pageable pageable) {
         return newsRepository.getNewsPage(pageable);
     }
 
     @Transactional
+    @RedisCacheEvicts(evicts = {
+        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+    })
     public void updateNews(Long newsId, UpdatedNewsRequest request) {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
         newsEntity.update(request);
     }
 
+    @RedisCacheEvicts(evicts = {
+        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+    })
     public void deleteNews(Long newsId) {
         newsRepository.deleteById(newsId);
     }
@@ -53,6 +69,7 @@ public class NewsService {
         newsEntity.increaseViewCount();
     }
 
+    @RedisCacheable(key = "NewsService.getHotNews", expireSecond = 1800L)
     public List<HotNewsViewResponse> getHotNews() {
         List<NewsEntity> newsEntities = newsRepository.findAll();
 
