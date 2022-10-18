@@ -3,8 +3,8 @@ package gg.stove;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import gg.stove.annotation.AdminCheck;
-import gg.stove.annotation.LoginCheck;
+import gg.stove.auth.annotation.AdminCheck;
+import gg.stove.auth.annotation.LoginCheck;
 import gg.stove.auth.domain.AuthUser;
 
 @RestController

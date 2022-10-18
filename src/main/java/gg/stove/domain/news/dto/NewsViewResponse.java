@@ -1,14 +1,19 @@
 package gg.stove.domain.news.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.querydsl.core.annotations.QueryProjection;
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.DateUtil;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
-public class NewsViewResponse {
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class NewsViewResponse implements Serializable {
 
     private Long id;
 
