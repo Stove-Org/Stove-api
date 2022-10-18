@@ -19,6 +19,8 @@ public class UpdatedNewsRequest {
     @NotBlank
     private String imageUrl;
 
+    private Long hotNewsWeight;
+
     @NotBlank
     @Schema(type = "string", example = "2022-10-17 14:44")
     private String publishedAt;

@@ -1,14 +1,11 @@
 package gg.stove.domain.news.dto;
 
-import java.time.LocalDateTime;
-
-import com.querydsl.core.annotations.QueryProjection;
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.DateUtil;
 import lombok.Data;
 
 @Data
-public class NewsViewResponse {
+public class HotNewsViewResponse {
 
     private Long id;
 
@@ -22,22 +19,15 @@ public class NewsViewResponse {
 
     private Long viewsCount;
 
-    @QueryProjection
-    public NewsViewResponse(Long id, String headline, String linkUrl, String imageUrl, LocalDateTime publishedAt, Long viewsCount) {
-        this.id = id;
-        this.headline = headline;
-        this.linkUrl = linkUrl;
-        this.imageUrl = imageUrl;
-        this.publishedAt = DateUtil.convertToWithWeekString(publishedAt);
-        this.viewsCount = viewsCount;
-    }
+    private Long score;
 
-    public NewsViewResponse(NewsEntity entity) {
+    public HotNewsViewResponse(NewsEntity entity, Long score) {
         this.id = entity.getId();
         this.headline = entity.getHeadline();
         this.linkUrl = entity.getLinkUrl();
         this.imageUrl = entity.getImageUrl();
         this.publishedAt = DateUtil.convertToWithWeekString(entity.getPublishedAt());
         this.viewsCount = entity.getViewCount();
+        this.score = score;
     }
 }

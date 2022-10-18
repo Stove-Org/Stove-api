@@ -43,6 +43,9 @@ public class NewsEntity {
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
+    @Column(name = "hot_news_weight", columnDefinition = "integer default 0")
+    private Long hotNewsWeight = 0L;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -78,6 +81,11 @@ public class NewsEntity {
         String publishedAt = request.getPublishedAt();
         if (publishedAt != null) {
             this.publishedAt = DateUtil.convertWithUntilMinuteString(publishedAt);
+        }
+
+        Long hotNewsWeight = request.getHotNewsWeight();
+        if (hotNewsWeight != null) {
+            this.hotNewsWeight = hotNewsWeight;
         }
     }
 

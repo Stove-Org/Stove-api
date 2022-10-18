@@ -122,7 +122,7 @@ class NewsServiceTest {
       }
 
     @Test
-    void name() {
+    void increaseViewCount() {
         // given
         CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
             .headline("headline")
