@@ -1,6 +1,7 @@
 package gg.stove.utils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ExceptionHandler(value = {IllegalArgumentException.class, DateTimeParseException.class})
     protected ResponseEntity<ErrorResponse> badRequestHandler(RuntimeException e) {
         return errorResponse(e, HttpStatus.BAD_REQUEST);
     }
