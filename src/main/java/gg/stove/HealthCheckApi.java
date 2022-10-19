@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import gg.stove.auth.annotation.AdminCheck;
 import gg.stove.auth.annotation.LoginCheck;
-import gg.stove.auth.domain.AuthUser;
+import gg.stove.domain.user.model.AuthUser;
 
 @RestController
 public class HealthCheckApi {

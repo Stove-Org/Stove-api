@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import gg.stove.auth.domain.AuthUser;
+import gg.stove.domain.user.model.AuthUser;
 import gg.stove.domain.user.entity.Authority;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;

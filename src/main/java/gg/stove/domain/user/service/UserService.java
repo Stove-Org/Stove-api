@@ -1,21 +1,20 @@
-package gg.stove.auth.service;
+package gg.stove.domain.user.service;
 
 import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import gg.stove.utils.JwtTokenProvider;
-import gg.stove.auth.dto.LoginRequest;
-import gg.stove.auth.dto.SignupRequest;
+import gg.stove.domain.user.dto.LoginRequest;
+import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;
+import gg.stove.utils.JwtTokenProvider;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
-
+public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtTokenProvider jwtTokenProvider;

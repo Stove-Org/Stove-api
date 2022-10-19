@@ -1,4 +1,4 @@
-package gg.stove.auth.controller;
+package gg.stove.domain.user.controller;
 
 import javax.validation.Valid;
 
@@ -7,24 +7,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import gg.stove.auth.dto.LoginRequest;
-import gg.stove.auth.dto.SignupRequest;
-import gg.stove.auth.service.AuthService;
+import gg.stove.domain.user.dto.LoginRequest;
+import gg.stove.domain.user.dto.SignupRequest;
+import gg.stove.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-public class AuthController {
-    private final AuthService authService;
+public class UserController {
+    private final UserService userService;
 
-    @PostMapping("/api/v1/auth/signup")
+    @PostMapping("/api/v1/users/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public void signup(@RequestBody @Valid SignupRequest signupRequest) {
-        authService.signup(signupRequest);
+        userService.signup(signupRequest);
     }
 
-    @PostMapping("/api/v1/auth/login")
+    @PostMapping("/api/v1/users/login")
     public String login(@RequestBody @Valid LoginRequest loginRequest) {
-        return authService.login(loginRequest);
+        return userService.login(loginRequest);
     }
+
 }
