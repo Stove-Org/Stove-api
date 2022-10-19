@@ -1,5 +1,6 @@
 package gg.stove.domain.user.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +35,12 @@ public class AuthUser implements UserDetails {
     public Long getId() {
         return user.getId();
     }
+
+    public String getEmail() { return user.getEmail();}
+
+    public String getNickName() { return user.getNickname();}
+
+    public LocalDateTime getCreatedAt() {return user.getCreatedAt();}
 
     @Override
     public String getPassword() {
