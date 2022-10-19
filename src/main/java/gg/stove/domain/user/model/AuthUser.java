@@ -1,4 +1,4 @@
-package gg.stove.auth.domain;
+package gg.stove.domain.user.model;
 
 import java.util.ArrayList;
 import java.util.Collection;

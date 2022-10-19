@@ -1,4 +1,4 @@
-package gg.stove.auth.dto;
+package gg.stove.domain.user.dto;
 
 import javax.validation.constraints.NotBlank;
 
@@ -7,14 +7,11 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class SignupRequest {
+public class LoginRequest {
 
     @NotBlank
     private String email;
 
     @NotBlank
     private String password;
-
-    @NotBlank
-    private String nickname;
 }
