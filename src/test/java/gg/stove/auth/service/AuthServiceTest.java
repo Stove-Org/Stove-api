@@ -56,7 +56,7 @@ class AuthServiceTest {
             .password("password")
             .build();
 
-        userRepository.save(new UserEntity("email@email.com", "password"));
+        userRepository.save(new UserEntity("email@email.com", "password", "nickname"));
 
         // when then
         assertThatThrownBy(() -> authService.signup(signupRequest)).isInstanceOf(IllegalArgumentException.class);
