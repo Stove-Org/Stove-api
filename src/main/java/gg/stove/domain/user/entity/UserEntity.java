@@ -33,6 +33,9 @@ public class UserEntity {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "nickname")
+    private String nickname;
+
     @Column(name = "authority", nullable = false)
     @Enumerated(EnumType.STRING)
     private Authority authority = Authority.ROLE_USER;
@@ -45,8 +48,9 @@ public class UserEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public UserEntity(String email, String password) {
+    public UserEntity(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
+        this.nickname = nickname;
     }
 }

@@ -28,7 +28,7 @@ public class AuthService {
         }
 
         String encodePassword = bCryptPasswordEncoder.encode(signupRequest.getPassword());
-        UserEntity userEntity = new UserEntity(email, encodePassword);
+        UserEntity userEntity = new UserEntity(email, encodePassword, signupRequest.getNickname());
         userRepository.save(userEntity);
     }
 
