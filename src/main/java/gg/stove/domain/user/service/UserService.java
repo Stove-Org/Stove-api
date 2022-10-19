@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import gg.stove.domain.user.dto.LoginRequest;
+import gg.stove.domain.user.dto.ResetPasswordRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;
@@ -38,5 +39,16 @@ public class UserService {
         }
 
         return jwtTokenProvider.generateToken(userEntity.getId());
+    }
+
+    @Transactional
+    public void resetPassword(Long userId, ResetPasswordRequest request) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+        if (!bCryptPasswordEncoder.matches(request.getCurrentPassword(), userEntity.getPassword())) {
+            throw new IllegalArgumentException();
+        }
+
+        String encodePassword = bCryptPasswordEncoder.encode(request.getNewPassword());
+        userEntity.updatePassword(encodePassword);
     }
 }

@@ -53,4 +53,8 @@ public class UserEntity {
         this.password = password;
         this.nickname = nickname;
     }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }
