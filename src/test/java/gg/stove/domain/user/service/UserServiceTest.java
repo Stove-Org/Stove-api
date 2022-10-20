@@ -75,7 +75,7 @@ class UserServiceTest {
             .password("password")
             .build();
 
-        // when then
+        // when & then
         String token = userService.login(loginRequest);
         Long id = userRepository.findAll().get(0).getId();
         then(token).isEqualTo(jwtTokenProvider.generateToken(id));
