@@ -36,7 +36,7 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (request.getServletPath().contains("/swagger-ui.html")) {
+        if (request.getServletPath().contains("/swagger") && false) {
             if (token != null && token.startsWith(TOKEN_PREFIX)) {
                 token = token.substring(TOKEN_PREFIX.length()).strip();
                 if (jwtTokenProvider.validateToken(token)) {
