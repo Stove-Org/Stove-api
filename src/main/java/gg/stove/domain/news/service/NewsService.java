@@ -55,6 +55,7 @@ public class NewsService {
         newsEntity.update(request);
     }
 
+    @Transactional
     @RedisCacheEvicts(evicts = {
         @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
         @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
