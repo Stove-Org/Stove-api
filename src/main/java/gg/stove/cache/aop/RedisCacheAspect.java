@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import gg.stove.cache.annotation.RedisCacheEvict;
@@ -18,6 +19,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 @Aspect
 @RequiredArgsConstructor
 @Component
+@Profile("!test")
 public class RedisCacheAspect {
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -36,12 +38,7 @@ public class RedisCacheAspect {
         }
 
         Object methodReturnValue = joinPoint.proceed();
-
-        if (expireSecond < 0) {
-            redisTemplate.opsForValue().set(cacheKey, methodReturnValue);
-        } else {
-            redisTemplate.opsForValue().set(cacheKey, methodReturnValue, expireSecond, TimeUnit.SECONDS);
-        }
+        redisTemplate.opsForValue().set(cacheKey, methodReturnValue, expireSecond, TimeUnit.SECONDS);
         return methodReturnValue;
     }
 
