@@ -3,9 +3,11 @@ package gg.stove.auth.config;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,24 +32,25 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
 
     private final String TOKEN_PREFIX = "Bearer";
 
+    @Value("${swagger.secret.key}")
+    private String cookieKey;
+
+    @Value("${swagger.secret.value}")
+    private String cookieValue;
+
     @Override
     protected void doFilterInternal(
         @NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (request.getServletPath().contains("/swagger-ui.html")) {
-            if (token != null && token.startsWith(TOKEN_PREFIX)) {
-                token = token.substring(TOKEN_PREFIX.length()).strip();
-                if (jwtTokenProvider.validateToken(token)) {
-                    Long userId = Long.valueOf(jwtTokenProvider.getUserIdFromJWT(token));
-                    UserEntity user = useRepository.findById(userId).orElseThrow();
-                    if (user.getAuthority().equals(Authority.ROLE_ADMIN)) {
-                        filterChain.doFilter(request, response);
-                    }
+        if (request.getServletPath().contains("swagger")) {
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals(cookieKey) && cookie.getValue().equals(cookieValue)) {
+                    filterChain.doFilter(request, response);
+                    return;
                 }
             }
-
             throw new AccessDeniedException("swagger access denied");
         } else {
             if (token != null && token.startsWith(TOKEN_PREFIX)) {
