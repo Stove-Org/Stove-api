@@ -24,7 +24,7 @@ public class ProgamerViewResponse implements Serializable {
 
     private String imgUrl;
 
-    private LocalDate birthday;
+    private String birthday;
 
     private CareerDto career;
 
@@ -34,7 +34,7 @@ public class ProgamerViewResponse implements Serializable {
         this.nickname = entity.getNickname();
         this.position = entity.getPosition();
         this.imgUrl = entity.getImgUrl();
-        this.birthday = entity.getBirthday();
+        this.birthday = entity.getBirthday().toString();
         this.career = new CareerDto(entity.getCareer());
     }
 }
