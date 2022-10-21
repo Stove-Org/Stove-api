@@ -14,3 +14,8 @@ springdoc:
 jasypt:
   encryptor:
     password: ${JASYPT_SECRETE_KEY}
+
+swagger:
+  secret:
+    key: stove-swagger
+    value: ENC(+iRr738Up71lHI/+VQWvnoyA9EJenkWTNvfxarN4QaR9+f+3nFSG2+3qqut2D1mu)
