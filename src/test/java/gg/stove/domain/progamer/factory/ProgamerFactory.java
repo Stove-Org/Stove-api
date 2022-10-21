@@ -1,7 +1,10 @@
 package gg.stove.domain.progamer.factory;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import gg.stove.domain.progamer.entity.Career;
 import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
 import gg.stove.domain.progamer.repository.ProgamerRepository;
@@ -17,6 +20,8 @@ public class ProgamerFactory {
             .nickname("nickname")
             .position(Position.TOP)
             .imgUrl("imgUrl")
+            .birthday(LocalDate.now())
+            .career(new Career(0,0,0))
             .build());
     }
 
@@ -26,6 +31,8 @@ public class ProgamerFactory {
             .nickname(nickname)
             .position(position)
             .imgUrl("imgUrl")
+            .birthday(LocalDate.now())
+            .career(new Career(0,0,0))
             .build());
     }
 }

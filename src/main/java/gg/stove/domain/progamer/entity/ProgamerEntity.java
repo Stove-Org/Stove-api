@@ -1,7 +1,9 @@
 package gg.stove.domain.progamer.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import gg.stove.domain.progamer.dto.CareerDto;
 import gg.stove.domain.progamer.dto.UpdateProgamerRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -39,7 +42,13 @@ public class ProgamerEntity {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    @Column(name = "imgUrl")
+    @Column(name = "birthday", nullable = false)
+    private LocalDate birthday;
+
+    @Embedded
+    private Career career;
+
+    @Column(name = "img_url")
     private String imgUrl;
 
     @CreationTimestamp
@@ -51,10 +60,12 @@ public class ProgamerEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public ProgamerEntity(String name, String nickname, Position position, String imgUrl) {
+    public ProgamerEntity(String name, String nickname, Position position, LocalDate birthday, Career career, String imgUrl) {
         this.name = name;
         this.nickname = nickname;
         this.position = position;
+        this.birthday = birthday;
+        this.career = career;
         this.imgUrl = imgUrl;
     }
 
@@ -77,6 +88,16 @@ public class ProgamerEntity {
         String imgUrl = request.getImgUrl();
         if (imgUrl != null) {
             this.imgUrl = imgUrl;
+        }
+
+        LocalDate birthday = request.getBirthday();
+        if (birthday != null) {
+            this.birthday = birthday;
+        }
+
+        CareerDto career = request.getCareer();
+        if (career != null) {
+            this.career = career.toEntity();
         }
     }
 }

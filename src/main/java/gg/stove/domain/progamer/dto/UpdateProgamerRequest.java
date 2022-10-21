@@ -1,5 +1,7 @@
 package gg.stove.domain.progamer.dto;
 
+import java.time.LocalDate;
+
 import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
 import lombok.Builder;
@@ -17,12 +19,18 @@ public class UpdateProgamerRequest {
 
     private String imgUrl;
 
+    private LocalDate birthday;
+
+    private CareerDto career;
+
     public ProgamerEntity toProgamerEntity() {
         return ProgamerEntity.builder()
             .name(name)
             .nickname(nickname)
             .position(Position.of(position))
             .imgUrl(imgUrl)
+            .birthday(birthday)
+            .career(career.toEntity())
             .build();
     }
 }

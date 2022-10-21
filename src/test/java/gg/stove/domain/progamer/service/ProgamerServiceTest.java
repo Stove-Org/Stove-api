@@ -1,10 +1,12 @@
 package gg.stove.domain.progamer.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import gg.stove.domain.progamer.dto.CareerDto;
 import gg.stove.domain.progamer.dto.CreateProgamerRequest;
 import gg.stove.domain.progamer.dto.ProgamerViewResponse;
 import gg.stove.domain.progamer.dto.UpdateProgamerRequest;
@@ -37,6 +39,8 @@ class ProgamerServiceTest {
             .nickname("nickname")
             .position("Top")
             .imgUrl("imgUrl")
+            .birthday(LocalDate.now())
+            .career(new CareerDto(0, 1, 2))
             .build();
 
         // when
@@ -48,6 +52,9 @@ class ProgamerServiceTest {
         then(progamerEntity.getNickname()).isEqualTo("nickname");
         then(progamerEntity.getImgUrl()).isEqualTo("imgUrl");
         then(progamerEntity.getPosition()).isEqualTo(Position.TOP);
+        then(progamerEntity.getCareer().getWorlds()).isEqualTo(0L);
+        then(progamerEntity.getCareer().getMsi()).isEqualTo(1L);
+        then(progamerEntity.getCareer().getLck()).isEqualTo(2L);
     }
 
     @Test
