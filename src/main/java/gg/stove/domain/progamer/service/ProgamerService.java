@@ -29,21 +29,21 @@ public class ProgamerService {
     }
 
     @Transactional
-    @RedisCacheEvict(key = "ProgamerService.getProgamerEntities")
+    @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void createProgamer(CreateProgamerRequest request) {
         ProgamerEntity progamerEntity = request.toProgamerEntity();
         progamerRepository.save(progamerEntity);
     }
 
     @Transactional
-    @RedisCacheEvict(key = "ProgamerService.getProgamerEntities")
+    @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void updateProgamer(Long progamerId, UpdateProgamerRequest request) {
         ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(DataNotFoundException::new);
         progamerEntity.update(request);
     }
 
     @Transactional
-    @RedisCacheEvict(key = "ProgamerService.getProgamerEntities")
+    @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void deleteProgamer(Long progamerId) {
         progamerRepository.deleteById(progamerId);
     }
