@@ -39,8 +39,8 @@ public class ProgamerEntity {
     @Enumerated(EnumType.STRING)
     private Position position;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "imgUrl")
+    private String imgUrl;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -51,11 +51,11 @@ public class ProgamerEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public ProgamerEntity(String name, String nickname, Position position, String imageUrl) {
+    public ProgamerEntity(String name, String nickname, Position position, String imgUrl) {
         this.name = name;
         this.nickname = nickname;
         this.position = position;
-        this.imageUrl = imageUrl;
+        this.imgUrl = imgUrl;
     }
 
     public void update(UpdateProgamerRequest request) {
@@ -74,9 +74,9 @@ public class ProgamerEntity {
             this.position = Position.of(position);
         }
 
-        String imageUrl = request.getImageUrl();
-        if (imageUrl != null) {
-            this.imageUrl = imageUrl;
+        String imgUrl = request.getImgUrl();
+        if (imgUrl != null) {
+            this.imgUrl = imgUrl;
         }
     }
 }

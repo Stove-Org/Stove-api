@@ -16,8 +16,8 @@ public class NewsFactory {
         return newsRepository.save(NewsEntity.builder()
             .headline("headline")
             .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt(LocalDateTime.of(2022, 12,1, 11, 30 )) // 2022-12-01 11:30
+            .imgUrl("imgUrl")
+            .uploadedAt(LocalDateTime.of(2022, 12,1, 11, 30 )) // 2022-12-01 11:30
             .build());
     }
 }

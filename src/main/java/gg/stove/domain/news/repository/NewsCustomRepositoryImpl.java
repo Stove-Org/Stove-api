@@ -37,8 +37,8 @@ public class NewsCustomRepositoryImpl extends QuerydslRepositorySupport implemen
                     newsEntity.id,
                     newsEntity.headline,
                     newsEntity.linkUrl,
-                    newsEntity.imageUrl,
-                    newsEntity.publishedAt,
+                    newsEntity.imgUrl,
+                    newsEntity.uploadedAt,
                     newsEntity.viewCount
                 )
             )

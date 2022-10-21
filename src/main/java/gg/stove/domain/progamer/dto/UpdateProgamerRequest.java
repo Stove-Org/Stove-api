@@ -15,14 +15,14 @@ public class UpdateProgamerRequest {
 
     private String position;
 
-    private String imageUrl;
+    private String imgUrl;
 
     public ProgamerEntity toProgamerEntity() {
         return ProgamerEntity.builder()
             .name(name)
             .nickname(nickname)
             .position(Position.of(position))
-            .imageUrl(imageUrl)
+            .imgUrl(imgUrl)
             .build();
     }
 }

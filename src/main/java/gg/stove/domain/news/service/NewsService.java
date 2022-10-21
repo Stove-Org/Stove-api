@@ -76,7 +76,7 @@ public class NewsService {
 
         Map<NewsEntity, Long> newHotScoreMap = new HashMap<>();
         for (NewsEntity newsEntity : newsEntities) {
-            long untilDay = DateUtil.getUntilDayFromToday(newsEntity.getPublishedAt());
+            long untilDay = DateUtil.getUntilDayFromToday(newsEntity.getUploadedAt());
             double dayPow = Math.pow(untilDay, untilDay) * 100;
             Long viewCount = newsEntity.getViewCount();
             Long hotNewsWeight = newsEntity.getHotNewsWeight();

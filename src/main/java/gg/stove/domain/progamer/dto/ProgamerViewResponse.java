@@ -21,13 +21,13 @@ public class ProgamerViewResponse implements Serializable {
 
     private Position position;
 
-    private String imageUrl;
+    private String imgUrl;
 
     public ProgamerViewResponse(ProgamerEntity entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.nickname = entity.getNickname();
         this.position = entity.getPosition();
-        this.imageUrl = entity.getImageUrl();
+        this.imgUrl = entity.getImgUrl();
     }
 }

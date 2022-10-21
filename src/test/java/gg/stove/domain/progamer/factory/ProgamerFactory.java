@@ -16,7 +16,16 @@ public class ProgamerFactory {
             .name("name")
             .nickname("nickname")
             .position(Position.TOP)
-            .imageUrl("imageUrl")
+            .imgUrl("imgUrl")
+            .build());
+    }
+
+    public ProgamerEntity create(String name, String nickname, Position position) {
+        return progamerRepository.save(ProgamerEntity.builder()
+            .name(name)
+            .nickname(nickname)
+            .position(position)
+            .imgUrl("imgUrl")
             .build());
     }
 }
