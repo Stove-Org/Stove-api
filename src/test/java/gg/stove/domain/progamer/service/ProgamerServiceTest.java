@@ -10,6 +10,7 @@ import gg.stove.domain.progamer.dto.ProgamerViewResponse;
 import gg.stove.domain.progamer.dto.UpdateProgamerRequest;
 import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
+import gg.stove.domain.progamer.factory.ProgamerFactory;
 import gg.stove.domain.progamer.repository.ProgamerRepository;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,9 @@ class ProgamerServiceTest {
 
     @Autowired
     private ProgamerRepository progamerRepository;
+
+    @Autowired
+    private ProgamerFactory progamerFactory;
 
     @Test
     void createProgamer() {
@@ -49,14 +53,7 @@ class ProgamerServiceTest {
     @Test
     void getProgamers() {
         // given
-        CreateProgamerRequest createRequest = CreateProgamerRequest.builder()
-            .name("name")
-            .nickname("nickname")
-            .position("Top")
-            .imageUrl("imageUrl")
-            .build();
-
-        progamerService.createProgamer(createRequest);
+        progamerFactory.create();
 
         // when
         List<ProgamerViewResponse> progamers = progamerService.getProgamers();
@@ -72,15 +69,8 @@ class ProgamerServiceTest {
     @Test
     void updateProgamer() {
         // given
-        CreateProgamerRequest createRequest = CreateProgamerRequest.builder()
-            .name("name")
-            .nickname("nickname")
-            .position("Top")
-            .imageUrl("imageUrl")
-            .build();
-
-        progamerService.createProgamer(createRequest);
-        Long id = progamerRepository.findAll().get(0).getId();
+        ProgamerEntity progamerEntity = progamerFactory.create();
+        Long id = progamerEntity.getId();
 
         UpdateProgamerRequest updateRequest = UpdateProgamerRequest.builder()
             .position("mid")
@@ -90,25 +80,18 @@ class ProgamerServiceTest {
         progamerService.updateProgamer(id, updateRequest);
 
         // then
-        ProgamerEntity progamerEntity = progamerRepository.findAll().get(0);
-        then(progamerEntity.getName()).isEqualTo("name");
-        then(progamerEntity.getNickname()).isEqualTo("nickname");
-        then(progamerEntity.getPosition()).isEqualTo(Position.of("MiD"));
-        then(progamerEntity.getImageUrl()).isEqualTo("imageUrl");
+        ProgamerEntity updatedProgamerEntity = progamerRepository.findById(id).get();
+        then(updatedProgamerEntity.getName()).isEqualTo("name");
+        then(updatedProgamerEntity.getNickname()).isEqualTo("nickname");
+        then(updatedProgamerEntity.getPosition()).isEqualTo(Position.of("MiD"));
+        then(updatedProgamerEntity.getImageUrl()).isEqualTo("imageUrl");
     }
 
     @Test
     void deleteProgamer() {
         // given
-        CreateProgamerRequest createRequest = CreateProgamerRequest.builder()
-            .name("name")
-            .nickname("nickname")
-            .position("Top")
-            .imageUrl("imageUrl")
-            .build();
-
-        progamerService.createProgamer(createRequest);
-        Long id = progamerRepository.findAll().get(0).getId();
+        ProgamerEntity progamerEntity = progamerFactory.create();
+        Long id = progamerEntity.getId();
 
         // when
         progamerService.deleteProgamer(id);
