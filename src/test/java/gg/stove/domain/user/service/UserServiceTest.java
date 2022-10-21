@@ -9,6 +9,7 @@ import gg.stove.domain.user.dto.LoginRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.entity.Authority;
 import gg.stove.domain.user.entity.UserEntity;
+import gg.stove.domain.user.factory.UserFactory;
 import gg.stove.domain.user.repository.UserRepository;
 import gg.stove.utils.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ class UserServiceTest {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private UserFactory userFactory;
 
     @Test
     void signup() {
@@ -49,12 +53,13 @@ class UserServiceTest {
     @Test
     void signupExistsEmail() {
         // given
+        userFactory.create("email@email.com");
+
         SignupRequest signupRequest = SignupRequest.builder()
             .email("email@email.com")
             .password("password")
+            .nickname("nickname")
             .build();
-
-        userRepository.save(new UserEntity("email@email.com", "password", "nickname"));
 
         // when then
         assertThatThrownBy(() -> userService.signup(signupRequest)).isInstanceOf(IllegalArgumentException.class);
@@ -63,13 +68,7 @@ class UserServiceTest {
     @Test
     void login() {
         // given
-        SignupRequest signupRequest = SignupRequest.builder()
-            .email("email@email.com")
-            .password("password")
-            .build();
-
-        userService.signup(signupRequest);
-
+        UserEntity user = userFactory.create("email@email.com", "password");
         LoginRequest loginRequest = LoginRequest.builder()
             .email("email@email.com")
             .password("password")
@@ -77,20 +76,13 @@ class UserServiceTest {
 
         // when then
         String token = userService.login(loginRequest);
-        Long id = userRepository.findAll().get(0).getId();
-        then(token).isEqualTo(jwtTokenProvider.generateToken(id));
+        then(token).isEqualTo(jwtTokenProvider.generateToken(user.getId()));
     }
 
     @Test
     void loginWrongPassword() {
         // given
-        SignupRequest signupRequest = SignupRequest.builder()
-            .email("email@email.com")
-            .password("password")
-            .build();
-
-        userService.signup(signupRequest);
-
+        userFactory.create("email@email.com", "password");
         LoginRequest loginRequest = LoginRequest.builder()
             .email("email@email.com")
             .password("wrong")
