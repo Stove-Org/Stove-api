@@ -34,14 +34,14 @@ public class NewsEntity {
     @Column(name = "link_url")
     private String linkUrl;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "imgUrl")
+    private String imgUrl;
 
     @Column(name = "view_count", columnDefinition = "integer default 0")
     private Long viewCount = 0L;
 
-    @Column(name = "published_at")
-    private LocalDateTime publishedAt;
+    @Column(name = "uploaded_at")
+    private LocalDateTime uploadedAt;
 
     @Column(name = "hot_news_weight", columnDefinition = "integer default 0")
     private Long hotNewsWeight = 0L;
@@ -55,11 +55,11 @@ public class NewsEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public NewsEntity(String headline, String linkUrl, String imageUrl, LocalDateTime publishedAt) {
+    public NewsEntity(String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt) {
         this.headline = headline;
         this.linkUrl = linkUrl;
-        this.imageUrl = imageUrl;
-        this.publishedAt = publishedAt;
+        this.imgUrl = imgUrl;
+        this.uploadedAt = uploadedAt;
     }
 
     public void update(UpdatedNewsRequest request) {
@@ -73,14 +73,14 @@ public class NewsEntity {
             this.linkUrl = linkUrl;
         }
 
-        String imageUrl = request.getImageUrl();
-        if (imageUrl != null) {
-            this.imageUrl = imageUrl;
+        String imgUrl = request.getImgUrl();
+        if (imgUrl != null) {
+            this.imgUrl = imgUrl;
         }
 
         String publishedAt = request.getPublishedAt();
         if (publishedAt != null) {
-            this.publishedAt = DateUtil.convertWithUntilMinuteString(publishedAt);
+            this.uploadedAt = DateUtil.convertWithUntilMinuteString(publishedAt);
         }
 
         Long hotNewsWeight = request.getHotNewsWeight();

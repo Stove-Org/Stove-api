@@ -36,8 +36,8 @@ class NewsServiceTest {
         CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
             .headline("headline")
             .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt("2022-12-01 11:30")
+            .imgUrl("imgUrl")
+            .uploadedAt("2022-12-01 11:30")
             .build();
 
         // when
@@ -47,8 +47,8 @@ class NewsServiceTest {
         NewsEntity newsEntity = newsRepository.findAll().get(0);
         then(newsEntity.getHeadline()).isEqualTo("headline");
         then(newsEntity.getLinkUrl()).isEqualTo("linkUrl");
-        then(newsEntity.getImageUrl()).isEqualTo("imageUrl");
-        then(newsEntity.getPublishedAt()).isEqualTo(LocalDateTime.of(2022, 12,1, 11, 30 ));
+        then(newsEntity.getImgUrl()).isEqualTo("imgUrl");
+        then(newsEntity.getUploadedAt()).isEqualTo(LocalDateTime.of(2022, 12,1, 11, 30 ));
     }
 
     @Test
@@ -64,7 +64,7 @@ class NewsServiceTest {
         NewsViewResponse newsViewResponse = newsPage.getContent().get(0);
         then(newsViewResponse.getHeadline()).isEqualTo("headline");
         then(newsViewResponse.getLinkUrl()).isEqualTo("linkUrl");
-        then(newsViewResponse.getImageUrl()).isEqualTo("imageUrl");
+        then(newsViewResponse.getImgUrl()).isEqualTo("imgUrl");
         then(newsViewResponse.getPublishedAt()).isEqualTo("2022.12.01 오전 11:30");
         then(newsViewResponse.getViewsCount()).isEqualTo(0);
     }
@@ -77,7 +77,7 @@ class NewsServiceTest {
 
         UpdatedNewsRequest updatedNewsRequest = UpdatedNewsRequest.builder()
             .headline("headline1")
-            .imageUrl("imageUrl1")
+            .imgUrl("imgUrl")
             .publishedAt("2021-09-14 17:10")
             .build();
 
@@ -88,8 +88,8 @@ class NewsServiceTest {
         NewsEntity updatedNews = newsRepository.findById(id).get();
         then(updatedNews.getHeadline()).isEqualTo("headline1");
         then(updatedNews.getLinkUrl()).isEqualTo("linkUrl");
-        then(updatedNews.getImageUrl()).isEqualTo("imageUrl1");
-        then(updatedNews.getPublishedAt()).isEqualTo(LocalDateTime.of(2021, 9,14, 17, 10 ));
+        then(updatedNews.getImgUrl()).isEqualTo("imgUrl");
+        then(updatedNews.getUploadedAt()).isEqualTo(LocalDateTime.of(2021, 9,14, 17, 10 ));
     }
 
     @Test

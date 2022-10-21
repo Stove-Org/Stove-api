@@ -12,7 +12,7 @@ public class UpdatedNewsRequest {
 
     private String linkUrl;
 
-    private String imageUrl;
+    private String imgUrl;
 
     private Long hotNewsWeight;
 

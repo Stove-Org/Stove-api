@@ -36,7 +36,7 @@ class ProgamerServiceTest {
             .name("name")
             .nickname("nickname")
             .position("Top")
-            .imageUrl("imageUrl")
+            .imgUrl("imgUrl")
             .build();
 
         // when
@@ -46,7 +46,7 @@ class ProgamerServiceTest {
         ProgamerEntity progamerEntity = progamerRepository.findAll().get(0);
         then(progamerEntity.getName()).isEqualTo("name");
         then(progamerEntity.getNickname()).isEqualTo("nickname");
-        then(progamerEntity.getImageUrl()).isEqualTo("imageUrl");
+        then(progamerEntity.getImgUrl()).isEqualTo("imgUrl");
         then(progamerEntity.getPosition()).isEqualTo(Position.TOP);
     }
 
@@ -63,7 +63,7 @@ class ProgamerServiceTest {
         then(progamerViewResponse.getName()).isEqualTo("name");
         then(progamerViewResponse.getNickname()).isEqualTo("nickname");
         then(progamerViewResponse.getPosition()).isEqualTo(Position.of("TOP"));
-        then(progamerViewResponse.getImageUrl()).isEqualTo("imageUrl");
+        then(progamerViewResponse.getImgUrl()).isEqualTo("imgUrl");
     }
 
     @Test
@@ -84,7 +84,7 @@ class ProgamerServiceTest {
         then(updatedProgamerEntity.getName()).isEqualTo("name");
         then(updatedProgamerEntity.getNickname()).isEqualTo("nickname");
         then(updatedProgamerEntity.getPosition()).isEqualTo(Position.of("MiD"));
-        then(updatedProgamerEntity.getImageUrl()).isEqualTo("imageUrl");
+        then(updatedProgamerEntity.getImgUrl()).isEqualTo("imgUrl");
     }
 
     @Test

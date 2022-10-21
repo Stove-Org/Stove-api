@@ -20,18 +20,18 @@ public class CreateNewsRequest {
     private String linkUrl;
 
     @NotBlank
-    private String imageUrl;
+    private String imgUrl;
 
     @NotBlank
     @Schema(type = "string", example = "2022-10-17 14:44")
-    private String publishedAt;
+    private String uploadedAt;
 
     public NewsEntity toNewsEntity() {
         return NewsEntity.builder()
             .headline(headline)
             .linkUrl(linkUrl)
-            .imageUrl(imageUrl)
-            .publishedAt(convertWithUntilMinuteString(publishedAt))
+            .imgUrl(imgUrl)
+            .uploadedAt(convertWithUntilMinuteString(uploadedAt))
             .build();
     }
 }
