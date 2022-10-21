@@ -1,6 +1,7 @@
 package gg.stove.domain.progamer.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
@@ -23,11 +24,17 @@ public class ProgamerViewResponse implements Serializable {
 
     private String imgUrl;
 
+    private LocalDate birthday;
+
+    private CareerDto career;
+
     public ProgamerViewResponse(ProgamerEntity entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.nickname = entity.getNickname();
         this.position = entity.getPosition();
         this.imgUrl = entity.getImgUrl();
+        this.birthday = entity.getBirthday();
+        this.career = new CareerDto(entity.getCareer());
     }
 }
