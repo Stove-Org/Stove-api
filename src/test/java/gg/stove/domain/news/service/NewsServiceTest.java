@@ -11,6 +11,7 @@ import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.UpdatedNewsRequest;
 import gg.stove.domain.news.entity.NewsEntity;
+import gg.stove.domain.news.factory.NewsFactory;
 import gg.stove.domain.news.repository.NewsRepository;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,9 @@ class NewsServiceTest {
 
     @Autowired
     private NewsRepository newsRepository;
+
+    @Autowired
+    private NewsFactory newsFactory;
 
     @Test
     void createNews() {
@@ -50,39 +54,26 @@ class NewsServiceTest {
     @Test
     void getNewsPage() {
         // given
-        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
-            .headline("headline")
-            .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt("2022-10-15 18:22")
-            .build();
-
-        // when
-        newsService.createNews(createNewsRequest);
+        newsFactory.create();
 
         // when
         Page<NewsViewResponse> newsPage = newsService.getNewsPage(PageRequest.of(0, 10));
 
+        // then
         then(newsPage.getTotalElements()).isEqualTo(1L);
         NewsViewResponse newsViewResponse = newsPage.getContent().get(0);
         then(newsViewResponse.getHeadline()).isEqualTo("headline");
         then(newsViewResponse.getLinkUrl()).isEqualTo("linkUrl");
         then(newsViewResponse.getImageUrl()).isEqualTo("imageUrl");
-        then(newsViewResponse.getPublishedAt()).isEqualTo("2022.10.15 오후 06:22");
+        then(newsViewResponse.getPublishedAt()).isEqualTo("2022.12.01 오전 11:30");
         then(newsViewResponse.getViewsCount()).isEqualTo(0);
     }
 
     @Test
     void updateNews() {
-        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
-            .headline("headline")
-            .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt("2022-10-15 18:22")
-            .build();
-
-        newsService.createNews(createNewsRequest);
-        Long id = newsRepository.findAll().get(0).getId();
+        // given
+        NewsEntity newsEntity = newsFactory.create();
+        Long id = newsEntity.getId();
 
         UpdatedNewsRequest updatedNewsRequest = UpdatedNewsRequest.builder()
             .headline("headline1")
@@ -94,25 +85,18 @@ class NewsServiceTest {
         newsService.updateNews(id, updatedNewsRequest);
 
         // then
-        NewsEntity newsEntity = newsRepository.findAll().get(0);
-        then(newsEntity.getHeadline()).isEqualTo("headline1");
-        then(newsEntity.getLinkUrl()).isEqualTo("linkUrl");
-        then(newsEntity.getImageUrl()).isEqualTo("imageUrl1");
-        then(newsEntity.getPublishedAt()).isEqualTo(LocalDateTime.of(2021, 9,14, 17, 10 ));
+        NewsEntity updatedNews = newsRepository.findById(id).get();
+        then(updatedNews.getHeadline()).isEqualTo("headline1");
+        then(updatedNews.getLinkUrl()).isEqualTo("linkUrl");
+        then(updatedNews.getImageUrl()).isEqualTo("imageUrl1");
+        then(updatedNews.getPublishedAt()).isEqualTo(LocalDateTime.of(2021, 9,14, 17, 10 ));
     }
 
     @Test
     void deleteNews() {
         // given
-        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
-            .headline("headline")
-            .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt("2022-10-15 18:22")
-            .build();
-
-        newsService.createNews(createNewsRequest);
-        Long id = newsRepository.findAll().get(0).getId();
+        NewsEntity newsEntity = newsFactory.create();
+        Long id = newsEntity.getId();
 
         // when
         newsService.deleteNews(id);
@@ -124,15 +108,8 @@ class NewsServiceTest {
     @Test
     void increaseViewCount() {
         // given
-        CreateNewsRequest createNewsRequest = CreateNewsRequest.builder()
-            .headline("headline")
-            .linkUrl("linkUrl")
-            .imageUrl("imageUrl")
-            .publishedAt("2022-10-15 18:22")
-            .build();
-
-        newsService.createNews(createNewsRequest);
-        Long id = newsRepository.findAll().get(0).getId();
+        NewsEntity newsEntity = newsFactory.create();
+        Long id = newsEntity.getId();
 
         // when, then
         then(newsRepository.findById(id).get().getViewCount()).isEqualTo(0L);
