@@ -30,7 +30,7 @@ public class ProgamerService {
 
     @RedisCacheable(key = "ProgamerService.getProgamerEntityMap", expireSecond = 3600L)
     public Map<Long, ProgamerEntity> getProgamerEntityMap() {
-        return progamerRepository.findAll().stream()
+        return getProgamerEntities().stream()
             .collect(Collectors.toMap(ProgamerEntity::getId, progamer -> progamer));
     }
 
