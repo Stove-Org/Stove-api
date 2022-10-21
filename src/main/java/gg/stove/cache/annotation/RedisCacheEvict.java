@@ -11,5 +11,5 @@ public @interface RedisCacheEvict {
 
     String key();
 
-    boolean clearAll() default false;
+    boolean clearAll() default true;
 }

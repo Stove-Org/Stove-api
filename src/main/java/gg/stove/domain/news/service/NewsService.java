@@ -32,8 +32,8 @@ public class NewsService {
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
-        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void createNews(CreateNewsRequest request) {
         NewsEntity newsEntity = request.toNewsEntity();
@@ -47,8 +47,8 @@ public class NewsService {
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
-        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void updateNews(Long newsId, UpdatedNewsRequest request) {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
@@ -57,8 +57,8 @@ public class NewsService {
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage", clearAll = true),
-        @RedisCacheEvict(key = "NewsService.getHotNews", clearAll = true),
+        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void deleteNews(Long newsId) {
         newsRepository.deleteById(newsId);
