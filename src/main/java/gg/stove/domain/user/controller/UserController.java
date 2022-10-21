@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import gg.stove.auth.annotation.LoginCheck;
 import gg.stove.domain.user.dto.LoginRequest;
+import gg.stove.domain.user.dto.ResetNicknameRequest;
 import gg.stove.domain.user.dto.ResetPasswordRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.dto.UserInfoView;
@@ -44,5 +45,11 @@ public class UserController {
     @PostMapping("/api/v1/users/reset-password")
     public void resetPassword(@AuthenticationPrincipal AuthUser user, @RequestBody @Valid ResetPasswordRequest request) {
         userService.resetPassword(user.getId(), request);
+    }
+
+    @LoginCheck
+    @PostMapping("/api/v1/users/reset-nickname")
+    public void resetPassword(@AuthenticationPrincipal AuthUser user, @RequestBody @Valid ResetNicknameRequest request) {
+        userService.resetNickname(user.getId(), request);
     }
 }

@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import gg.stove.domain.user.dto.LoginRequest;
+import gg.stove.domain.user.dto.ResetNicknameRequest;
 import gg.stove.domain.user.dto.ResetPasswordRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.entity.UserEntity;
@@ -50,5 +51,11 @@ public class UserService {
 
         String encodePassword = bCryptPasswordEncoder.encode(request.getNewPassword());
         userEntity.updatePassword(encodePassword);
+    }
+
+    @Transactional
+    public void resetNickname(Long userId, ResetNicknameRequest request) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+        userEntity.updateNickname(request.getNickname());
     }
 }
