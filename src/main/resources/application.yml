@@ -10,7 +10,3 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
     displayRequestDuration: true
-
-jasypt:
-  encryptor:
-    password: ${JASYPT_SECRETE_KEY}

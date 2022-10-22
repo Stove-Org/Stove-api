@@ -16,4 +16,3 @@ spring:
     port: 6379
 
 jwt.secret: secret
-jasypt.encryptor.password: password
