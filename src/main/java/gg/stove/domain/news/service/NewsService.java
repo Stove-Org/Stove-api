@@ -51,7 +51,7 @@ public class NewsService {
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void updateNews(Long newsId, UpdatedNewsRequest request) {
-        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
         newsEntity.update(request);
     }
 
@@ -61,13 +61,13 @@ public class NewsService {
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void deleteNews(Long newsId) {
-        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
         newsRepository.delete(newsEntity);
     }
 
     @Transactional
     public void increaseViewCount(Long newsId) {
-        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
         newsEntity.increaseViewCount();
     }
 
