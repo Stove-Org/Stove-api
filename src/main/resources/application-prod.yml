@@ -12,7 +12,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-    show-sql: true
     open-in-view: false
     properties:
       hibernate.format_sql: true
@@ -20,8 +19,7 @@ spring:
       hibernate:
         enable_lazy_load_no_trans: true
         default_batch_fetch_size: 100
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/stove?serverTimezone=Asia/Seoul
-    username: root
-    password:

@@ -66,20 +66,6 @@ class UserServiceTest {
     }
 
     @Test
-    void login() {
-        // given
-        UserEntity user = userFactory.create("email@email.com", "password");
-        LoginRequest loginRequest = LoginRequest.builder()
-            .email("email@email.com")
-            .password("password")
-            .build();
-
-        // when then
-        String token = userService.login(loginRequest);
-        then(token).isEqualTo(jwtTokenProvider.generateToken(user.getId()));
-    }
-
-    @Test
     void loginWrongPassword() {
         // given
         userFactory.create("email@email.com", "password");
