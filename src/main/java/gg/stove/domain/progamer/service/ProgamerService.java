@@ -45,6 +45,7 @@ public class ProgamerService {
     @Transactional
     @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void deleteProgamer(Long progamerId) {
-        progamerRepository.deleteById(progamerId);
+        ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(DataNotFoundException::new);
+        progamerRepository.delete(progamerEntity);
     }
 }
