@@ -38,14 +38,14 @@ public class ProgamerService {
     @Transactional
     @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void updateProgamer(Long progamerId, UpdateProgamerRequest request) {
-        ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(DataNotFoundException::new);
+        ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(() -> new DataNotFoundException("progamerId에 해당하는 데이터가 존재하지 않습니다."));
         progamerEntity.update(request);
     }
 
     @Transactional
     @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void deleteProgamer(Long progamerId) {
-        ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(DataNotFoundException::new);
+        ProgamerEntity progamerEntity = progamerRepository.findById(progamerId).orElseThrow(() -> new DataNotFoundException("progamerId에 해당하는 데이터가 존재하지 않습니다."));
         progamerRepository.delete(progamerEntity);
     }
 }
