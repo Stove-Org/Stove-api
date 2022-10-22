@@ -61,7 +61,8 @@ public class NewsService {
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void deleteNews(Long newsId) {
-        newsRepository.deleteById(newsId);
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(DataNotFoundException::new);
+        newsRepository.delete(newsEntity);
     }
 
     @Transactional
