@@ -92,12 +92,3 @@ clean.doLast {  // clean시 폴더 삭제
 tasks.named('test') {
     useJUnitPlatform()
 }
-
-jar {
-    enabled = false
-}
-
-bootJar {
-    archivesBaseName = 'stove-api'
-    archiveFileName = 'stove-api.jar'
-}
