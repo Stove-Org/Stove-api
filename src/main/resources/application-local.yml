@@ -28,13 +28,3 @@ spring:
     url: ENC(Lz4D5vDGF9FUctGPAMdmbqEkxBqkEcuV5hdDDyQ69fzJNd+ZTtSJq0JsLuFK4IYpa4SgerAF1MUNVNdQ7/HtZw==)
     username: ENC(uT/vxA3BYhq6z8lLKcHaRA==)
     password: ENC(6Yzd0d5qKhZhMR0ko/BGHA==)
-
-cloud:
-  aws:
-    credentials:
-      accessKey: ENC(+lAlU3n8oQUf0haAXHL6waN2LK+gD17Nk++3w5XhZeM=)
-      secretKey: ENC(o5MtoVKAi4cCZc3NS3oPdaa0Mzdblu2kpIWkV3Herp1PSZ8LciG5novwaW7oBkV7IBiT3sa96x0=)
-    s3:
-      bucket: ENC(GXfZtMLnvNXWe5CtBPHcWfFkpzfDSycm)
-    region:
-      static: ap-northeast-2
