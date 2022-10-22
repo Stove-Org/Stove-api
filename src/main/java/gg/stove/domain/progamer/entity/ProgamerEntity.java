@@ -16,6 +16,7 @@ import gg.stove.domain.progamer.dto.CareerDto;
 import gg.stove.domain.progamer.dto.UpdateProgamerRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Getter
 @Table(name = "progamers")
+@EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProgamerEntity {
 
