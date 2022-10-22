@@ -15,4 +15,5 @@ spring:
     host: localhost
     port: 6379
 
-jwt.secret: secret
+jwt:
+  secret: secret

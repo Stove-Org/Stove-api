@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import redis.embedded.RedisServer;
 
 @Slf4j
-@Profile({"local", "test"})
 @Configuration
 public class EmbeddedRedisConfig implements InitializingBean, DisposableBean {
 
