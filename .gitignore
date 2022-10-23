@@ -201,3 +201,7 @@ gradle-app.setting
 .vscode/
 
 generated/
+
+ddl.sql
+docker-compose.yml
+note.text
