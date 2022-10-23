@@ -14,8 +14,6 @@ public class UpdatedNewsRequest {
 
     private String imgUrl;
 
-    private Long hotNewsWeight;
-
     @Schema(type = "string", example = "2022-10-17 14:44")
     private String publishedAt;
 }

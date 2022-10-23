@@ -80,8 +80,7 @@ public class NewsService {
             long untilDay = DateUtil.getUntilDayFromToday(newsEntity.getUploadedAt());
             double dayPow = Math.pow(untilDay, untilDay) * 100;
             Long viewCount = newsEntity.getViewCount();
-            Long hotNewsWeight = newsEntity.getHotNewsWeight();
-            newHotScoreMap.put(newsEntity, (long) (hotNewsWeight+viewCount-dayPow));
+            newHotScoreMap.put(newsEntity, (long) (viewCount-dayPow));
         }
 
         List<Map.Entry<NewsEntity, Long>> entryList = new LinkedList<>(newHotScoreMap.entrySet());
