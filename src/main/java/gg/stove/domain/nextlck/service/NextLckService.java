@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import gg.stove.cache.annotation.RedisCacheable;
 import gg.stove.domain.nextlck.dto.NextLckRoasterRequest;
 import gg.stove.domain.nextlck.dto.NextLckRoasterResponse;
 import gg.stove.domain.nextlck.dto.NextLckSaveRequest;
 import gg.stove.domain.nextlck.dto.NextLckViewResponse;
+import gg.stove.domain.nextlck.dto.ParticipantsCountResponseView;
 import gg.stove.domain.nextlck.entity.NextLckEntity;
 import gg.stove.domain.nextlck.repository.NextLckRepository;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
@@ -108,5 +110,10 @@ public class NextLckService {
         UserEntity user = userRepository.findById(id).orElseThrow();
         List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUser(user);
         nextLckRepository.deleteAll(nextLckEntities);
+    }
+    @RedisCacheable(key = "ParticipantsCountResponseView.getParticipantsCount", expireSecond = 60L)
+    public ParticipantsCountResponseView getParticipantsCount() {
+        long count = nextLckRepository.countDistinctUser();
+        return new ParticipantsCountResponseView(count);
     }
 }

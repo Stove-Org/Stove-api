@@ -10,4 +10,5 @@ public interface NextLckCustomRepository {
     List<NextLckEntity> findAllByUserWithTeamAndPlayers(UserEntity user);
     List<NextLckEntity> findAllByUserWithTeam(UserEntity user);
 
+    long countDistinctUser();
 }
