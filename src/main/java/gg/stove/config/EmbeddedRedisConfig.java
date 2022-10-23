@@ -17,6 +17,7 @@ import redis.embedded.RedisServer;
 
 @Slf4j
 @Configuration
+@Profile({"local", "test"})
 public class EmbeddedRedisConfig implements InitializingBean, DisposableBean {
 
     @Value("${spring.redis.port}")
