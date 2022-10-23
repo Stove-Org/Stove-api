@@ -40,6 +40,20 @@ public class NextLckFactory {
         );
     }
 
+    public NextLckEntity create(UserEntity user) {
+        return nextLckRepository.save(
+            NextLckEntity.builder()
+                .user(user)
+                .team(teamFactory.create())
+                .top(progamerFactory.create("name1", "nickname1", Position.TOP))
+                .jgl(progamerFactory.create("name2", "nickname2", Position.JGL))
+                .mid(progamerFactory.create("name3", "nickname3", Position.MID))
+                .bot(progamerFactory.create("name4", "nickname4", Position.BOT))
+                .spt(progamerFactory.create("name5", "nickname5", Position.SPT))
+                .build()
+        );
+    }
+
     public NextLckEntity create(
         UserEntity user,
         TeamEntity team,

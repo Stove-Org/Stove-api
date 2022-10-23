@@ -51,4 +51,12 @@ public class NextLckRepositoryImpl extends QuerydslRepositorySupport implements 
             .fetchJoin()
             .fetch();
     }
+
+    @Override
+    public long countDistinctUser() {
+        return jpaQueryFactory
+            .selectDistinct(nextLckEntity.user)
+            .from(nextLckEntity)
+            .fetch().size();
+    }
 }

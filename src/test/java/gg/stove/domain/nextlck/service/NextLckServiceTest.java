@@ -151,4 +151,19 @@ class NextLckServiceTest {
         then(nextLckEntities.get(1).getBot()).isNull();
         then(nextLckEntities.get(1).getSpt()).isNull();
     }
+
+    @Test
+    void getParticipantsCount() {
+        // given
+        nextLckFactory.create();
+        nextLckFactory.create();
+
+        UserEntity user = userFactory.create();
+        nextLckFactory.create(user);
+        nextLckFactory.create(user);
+
+        // when then
+        then(nextLckRepository.count()).isEqualTo(4L);
+        then(nextLckService.getParticipantsCount().getCount()).isEqualTo(3L);
+    }
 }

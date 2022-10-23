@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import gg.stove.auth.annotation.LoginCheck;
 import gg.stove.domain.nextlck.dto.NextLckSaveRequest;
 import gg.stove.domain.nextlck.dto.NextLckViewResponse;
+import gg.stove.domain.nextlck.dto.ParticipantsCountResponseView;
 import gg.stove.domain.nextlck.service.NextLckService;
 import gg.stove.domain.user.model.AuthUser;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,10 @@ public class NextLckController {
     @DeleteMapping("/api/v1/next_lck")
     public void resetNextLck(@AuthenticationPrincipal AuthUser user) {
         nextLckService.resetNextLck(user.getId());
+    }
+
+    @GetMapping("/api/v1/next_lck/participants-count")
+    public ParticipantsCountResponseView getParticipantsCount() {
+        return nextLckService.getParticipantsCount();
     }
 }
