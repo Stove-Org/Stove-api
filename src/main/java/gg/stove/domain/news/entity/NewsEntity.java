@@ -40,6 +40,9 @@ public class NewsEntity {
     @Column(name = "view_count", columnDefinition = "integer default 0")
     private Long viewCount = 0L;
 
+    @Column(name = "is_published")
+    private Boolean isPublished = false;
+
     @Column(name = "uploaded_at")
     private LocalDateTime uploadedAt;
 
@@ -59,6 +62,10 @@ public class NewsEntity {
         this.uploadedAt = uploadedAt;
     }
 
+    public void publish() {
+        this.isPublished = true;
+    }
+
     public void update(UpdatedNewsRequest request) {
         String headline = request.getHeadline();
         if (headline != null) {
@@ -75,9 +82,14 @@ public class NewsEntity {
             this.imgUrl = imgUrl;
         }
 
-        String publishedAt = request.getPublishedAt();
-        if (publishedAt != null) {
-            this.uploadedAt = DateUtil.convertWithUntilMinuteString(publishedAt);
+        String uploadedAt = request.getUploadedAt();
+        if (uploadedAt != null) {
+            this.uploadedAt = DateUtil.convertWithUntilMinuteString(uploadedAt);
+        }
+
+        Boolean isPublished = request.getIsPublished();
+        if (isPublished != null) {
+            this.isPublished = isPublished;
         }
     }
 

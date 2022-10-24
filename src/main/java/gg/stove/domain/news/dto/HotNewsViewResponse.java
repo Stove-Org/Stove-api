@@ -21,7 +21,7 @@ public class HotNewsViewResponse implements Serializable {
 
     private String imgUrl;
 
-    private String publishedAt;
+    private String uploadedAt;
 
     private Long viewsCount;
 
@@ -32,7 +32,7 @@ public class HotNewsViewResponse implements Serializable {
         this.headline = entity.getHeadline();
         this.linkUrl = entity.getLinkUrl();
         this.imgUrl = entity.getImgUrl();
-        this.publishedAt = DateUtil.convertToWithWeekString(entity.getUploadedAt());
+        this.uploadedAt = DateUtil.convertToWithWeekString(entity.getUploadedAt());
         this.viewsCount = entity.getViewCount();
         this.score = score;
     }

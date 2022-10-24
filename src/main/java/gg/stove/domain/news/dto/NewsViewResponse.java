@@ -23,17 +23,17 @@ public class NewsViewResponse implements Serializable {
 
     private String imgUrl;
 
-    private String publishedAt;
+    private String uploadedAt;
 
     private Long viewsCount;
 
     @QueryProjection
-    public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime publishedAt, Long viewsCount) {
+    public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt, Long viewsCount) {
         this.id = id;
         this.headline = headline;
         this.linkUrl = linkUrl;
         this.imgUrl = imgUrl;
-        this.publishedAt = DateUtil.convertToWithWeekString(publishedAt);
+        this.uploadedAt = DateUtil.convertToWithWeekString(uploadedAt);
         this.viewsCount = viewsCount;
     }
 
@@ -42,7 +42,7 @@ public class NewsViewResponse implements Serializable {
         this.headline = entity.getHeadline();
         this.linkUrl = entity.getLinkUrl();
         this.imgUrl = entity.getImgUrl();
-        this.publishedAt = DateUtil.convertToWithWeekString(entity.getUploadedAt());
+        this.uploadedAt = DateUtil.convertToWithWeekString(entity.getUploadedAt());
         this.viewsCount = entity.getViewCount();
     }
 }

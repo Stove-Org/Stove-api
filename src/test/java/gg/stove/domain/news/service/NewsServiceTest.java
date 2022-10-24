@@ -65,7 +65,7 @@ class NewsServiceTest {
         then(newsViewResponse.getHeadline()).isEqualTo("headline");
         then(newsViewResponse.getLinkUrl()).isEqualTo("linkUrl");
         then(newsViewResponse.getImgUrl()).isEqualTo("imgUrl");
-        then(newsViewResponse.getPublishedAt()).isEqualTo("2022.12.01 오전 11:30");
+        then(newsViewResponse.getUploadedAt()).isEqualTo("2022.12.01 오전 11:30");
         then(newsViewResponse.getViewsCount()).isEqualTo(0);
     }
 
@@ -78,7 +78,7 @@ class NewsServiceTest {
         UpdatedNewsRequest updatedNewsRequest = UpdatedNewsRequest.builder()
             .headline("headline1")
             .imgUrl("imgUrl")
-            .publishedAt("2021-09-14 17:10")
+            .uploadedAt("2021-09-14 17:10")
             .build();
 
         // when

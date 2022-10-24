@@ -15,5 +15,7 @@ public class UpdatedNewsRequest {
     private String imgUrl;
 
     @Schema(type = "string", example = "2022-10-17 14:44")
-    private String publishedAt;
+    private String uploadedAt;
+
+    private Boolean isPublished;
 }
