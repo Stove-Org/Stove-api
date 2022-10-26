@@ -65,10 +65,6 @@ class NextLckServiceTest {
         ProgamerEntity supporter2 = progamerFactory.create("supporter2-name", "supporter2-nickname", Position.SPT);
         nextLckFactory.create(user, team2, top2, null, mid2, null, supporter2);
 
-        ProgamerEntity unSelectedPlayer1 = progamerFactory.create("un-selected1-name", "un-selected1-nickname", Position.TOP);
-        ProgamerEntity unSelectedPlayer2 = progamerFactory.create("un-selected2-name", "un-selected2-nickname", Position.MID);
-        ProgamerEntity unSelectedPlayer3 = progamerFactory.create("un-selected3-name", "un-selected3-nickname", Position.JGL);
-
         // when
         NextLckViewResponse nextLckViewResponse = nextLckService.loadNextLck(user.getId());
 
@@ -88,12 +84,6 @@ class NextLckServiceTest {
         then(roasters.get(1).getMid()).isEqualTo(NextLckPlayerResponse.from(mid2));
         then(roasters.get(1).getBot()).isNull();
         then(roasters.get(1).getSpt()).isEqualTo(NextLckPlayerResponse.from(supporter2));
-
-        List<NextLckPlayerResponse> unSelectedPlayers = nextLckViewResponse.getReserveProgamers();
-        then(unSelectedPlayers.size()).isEqualTo(3L);
-        then(unSelectedPlayers).contains(NextLckPlayerResponse.from(unSelectedPlayer1));
-        then(unSelectedPlayers).contains(NextLckPlayerResponse.from(unSelectedPlayer2));
-        then(unSelectedPlayers).contains(NextLckPlayerResponse.from(unSelectedPlayer3));
     }
 
     @Test

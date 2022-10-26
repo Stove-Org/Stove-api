@@ -36,20 +36,11 @@ public class NextLckService {
     public NextLckViewResponse loadNextLck(Long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();
         List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUserWithTeamAndPlayers(userEntity);
-
-        Set<ProgamerEntity> allProgamerSet = new HashSet<>(progamerRepository.findAll());
-        List<NextLckRoasterResponse> nextLckRoasterResponseList = new ArrayList<>();
-        for (NextLckEntity nextLckEntity : nextLckEntities) {
-            nextLckRoasterResponseList.add(NextLckRoasterResponse.from(nextLckEntity));
-
-            allProgamerSet.remove(nextLckEntity.getTop());
-            allProgamerSet.remove(nextLckEntity.getJgl());
-            allProgamerSet.remove(nextLckEntity.getMid());
-            allProgamerSet.remove(nextLckEntity.getBot());
-            allProgamerSet.remove(nextLckEntity.getSpt());
-        }
-
-        return NextLckViewResponse.of(nextLckRoasterResponseList, new ArrayList<>(allProgamerSet));
+        return NextLckViewResponse.of(
+            nextLckEntities.stream()
+                .map(NextLckRoasterResponse::from)
+                .collect(Collectors.toList())
+        );
     }
 
     @Transactional
