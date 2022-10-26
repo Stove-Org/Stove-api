@@ -55,15 +55,12 @@ public class NewsEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public NewsEntity(String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt) {
+    public NewsEntity(String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt, Boolean isPublished) {
         this.headline = headline;
         this.linkUrl = linkUrl;
         this.imgUrl = imgUrl;
         this.uploadedAt = uploadedAt;
-    }
-
-    public void publish() {
-        this.isPublished = true;
+        this.isPublished = isPublished;
     }
 
     public void update(UpdatedNewsRequest request) {

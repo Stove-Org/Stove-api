@@ -26,12 +26,16 @@ public class CreateNewsRequest {
     @Schema(type = "string", example = "2022-10-17 14:44")
     private String uploadedAt;
 
+    @NotBlank
+    private Boolean isPublished;
+
     public NewsEntity toNewsEntity() {
         return NewsEntity.builder()
             .headline(headline)
             .linkUrl(linkUrl)
             .imgUrl(imgUrl)
             .uploadedAt(convertWithUntilMinuteString(uploadedAt))
+            .isPublished(isPublished)
             .build();
     }
 }

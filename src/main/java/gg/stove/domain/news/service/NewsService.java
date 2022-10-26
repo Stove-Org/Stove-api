@@ -37,7 +37,6 @@ public class NewsService {
     })
     public void createNews(CreateNewsRequest request) {
         NewsEntity newsEntity = request.toNewsEntity();
-        newsEntity.publish();;
         newsRepository.save(newsEntity);
     }
 
