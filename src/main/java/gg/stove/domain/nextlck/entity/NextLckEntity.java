@@ -3,6 +3,8 @@ package gg.stove.domain.nextlck.entity;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
-import gg.stove.domain.team.entity.TeamEntity;
 import gg.stove.domain.user.entity.UserEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -25,6 +28,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Getter
 @Table(name = "next_lcks")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(of = {"id", "user", "teamId", "position"})
 public class NextLckEntity {
 
     @Id
@@ -34,31 +38,18 @@ public class NextLckEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserEntity user; //idx
+    private UserEntity user;
+
+    @Column(name = "team_id", nullable = false)
+    private Integer teamId;
+
+    @Column(name = "position", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
-    private TeamEntity team;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "top_id")
-    private ProgamerEntity top;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "jgl_id")
-    private ProgamerEntity jgl;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mid_id")
-    private ProgamerEntity mid;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bot_id")
-    private ProgamerEntity bot;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "spt_id")
-    private ProgamerEntity spt;
+    @JoinColumn(name = "progamer_id")
+    private ProgamerEntity progamer;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -68,22 +59,15 @@ public class NextLckEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @Builder
-    public NextLckEntity(UserEntity user, TeamEntity team, ProgamerEntity top, ProgamerEntity jgl, ProgamerEntity mid, ProgamerEntity bot, ProgamerEntity spt) {
+    @Builder()
+    public NextLckEntity(UserEntity user, Integer teamId, Position position, ProgamerEntity progamer) {
         this.user = user;
-        this.team = team;
-        this.top = top;
-        this.jgl = jgl;
-        this.mid = mid;
-        this.bot = bot;
-        this.spt = spt;
+        this.teamId = teamId;
+        this.position = position;
+        this.progamer = progamer;
     }
 
-    public void update(ProgamerEntity top, ProgamerEntity jungle, ProgamerEntity mid, ProgamerEntity ad, ProgamerEntity supporter) {
-        this.top = top;
-        this.jgl = jungle;
-        this.mid = mid;
-        this.bot = ad;
-        this.spt = supporter;
+    public void update(ProgamerEntity progamer) {
+        this.progamer = progamer;
     }
 }

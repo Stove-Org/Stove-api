@@ -10,7 +10,6 @@ import gg.stove.domain.user.entity.UserEntity;
 
 import static gg.stove.domain.nextlck.entity.QNextLckEntity.nextLckEntity;
 import static gg.stove.domain.progamer.entity.QProgamerEntity.progamerEntity;
-import static gg.stove.domain.team.entity.QTeamEntity.teamEntity;
 
 @Repository
 public class NextLckRepositoryImpl extends QuerydslRepositorySupport implements NextLckCustomRepository {
@@ -23,31 +22,11 @@ public class NextLckRepositoryImpl extends QuerydslRepositorySupport implements 
     }
 
     @Override
-    public List<NextLckEntity> findAllByUserWithTeamAndPlayers(UserEntity user) {
+    public List<NextLckEntity> findAllByUserWithPlayers(UserEntity user) {
         return jpaQueryFactory
             .selectFrom(nextLckEntity)
             .where(nextLckEntity.user.eq(user))
-            .join(nextLckEntity.team, teamEntity)
-            .fetchJoin()
-            .leftJoin(nextLckEntity.top, progamerEntity)
-            .fetchJoin()
-            .leftJoin(nextLckEntity.jgl, progamerEntity)
-            .fetchJoin()
-            .leftJoin(nextLckEntity.mid, progamerEntity)
-            .fetchJoin()
-            .leftJoin(nextLckEntity.bot, progamerEntity)
-            .fetchJoin()
-            .leftJoin(nextLckEntity.spt, progamerEntity)
-            .fetchJoin()
-            .fetch();
-    }
-
-    @Override
-    public List<NextLckEntity> findAllByUserWithTeam(UserEntity user) {
-        return jpaQueryFactory
-            .selectFrom(nextLckEntity)
-            .where(nextLckEntity.user.eq(user))
-            .join(nextLckEntity.team, teamEntity)
+            .leftJoin(nextLckEntity.progamer, progamerEntity)
             .fetchJoin()
             .fetch();
     }
