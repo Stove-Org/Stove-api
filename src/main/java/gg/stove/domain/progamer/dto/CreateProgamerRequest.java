@@ -1,6 +1,7 @@
 package gg.stove.domain.progamer.dto;
 
 import java.time.LocalDate;
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 
 import gg.stove.domain.progamer.entity.Position;
@@ -27,6 +28,8 @@ public class CreateProgamerRequest {
 
     private CareerDto career;
 
+    private Set<String> alias;
+
     public ProgamerEntity toProgamerEntity() {
         return ProgamerEntity.builder()
             .name(name)
@@ -35,6 +38,7 @@ public class CreateProgamerRequest {
             .imgUrl(imgUrl)
             .birthday(birthday)
             .career(career.toEntity())
+            .alias(alias)
             .build();
     }
 }

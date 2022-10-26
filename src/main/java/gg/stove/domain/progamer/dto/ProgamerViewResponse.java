@@ -1,7 +1,8 @@
 package gg.stove.domain.progamer.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import gg.stove.domain.progamer.entity.Position;
 import gg.stove.domain.progamer.entity.ProgamerEntity;
@@ -27,6 +28,7 @@ public class ProgamerViewResponse implements Serializable {
     private String birthday;
 
     private CareerDto career;
+    private Set<String> alias = new HashSet<>();
 
     public ProgamerViewResponse(ProgamerEntity entity) {
         this.id = entity.getId();
@@ -36,5 +38,6 @@ public class ProgamerViewResponse implements Serializable {
         this.imgUrl = entity.getImgUrl();
         this.birthday = entity.getBirthday().toString();
         this.career = new CareerDto(entity.getCareer());
+        this.alias = entity.getAlias();
     }
 }

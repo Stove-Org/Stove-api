@@ -2,7 +2,10 @@ package gg.stove.domain.progamer.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,6 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import gg.stove.config.SetAttributeConverter;
 import gg.stove.domain.progamer.dto.CareerDto;
 import gg.stove.domain.progamer.dto.UpdateProgamerRequest;
 import lombok.AccessLevel;
@@ -61,14 +65,19 @@ public class ProgamerEntity {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Convert(converter = SetAttributeConverter.class)
+    @Column(columnDefinition = "json")
+    private Set<String> alias = new HashSet<>();
+
     @Builder
-    public ProgamerEntity(String name, String nickname, Position position, LocalDate birthday, Career career, String imgUrl) {
+    public ProgamerEntity(String name, String nickname, Position position, LocalDate birthday, Career career, String imgUrl, Set<String> alias) {
         this.name = name;
         this.nickname = nickname;
         this.position = position;
         this.birthday = birthday;
         this.career = career;
         this.imgUrl = imgUrl;
+        this.alias = alias;
     }
 
     public void update(UpdateProgamerRequest request) {
@@ -100,6 +109,11 @@ public class ProgamerEntity {
         CareerDto career = request.getCareer();
         if (career != null) {
             this.career = career.toEntity();
+        }
+
+        Set<String> alias = request.getAlias();
+        if (alias != null) {
+            this.alias = alias;
         }
     }
 }
