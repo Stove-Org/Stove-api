@@ -21,6 +21,7 @@ import gg.stove.domain.progamer.repository.ProgamerRepository;
 import gg.stove.domain.team.Team;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;
+import gg.stove.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -56,6 +57,10 @@ public class NextLckService {
             Team team = nextLckSaveRequest.getTeam();
             Long progamerId = nextLckSaveRequest.getProgamerId();
             ProgamerEntity progamerEntity = progamerEntityMap.get(progamerId);
+
+            if (progamerEntity == null) {
+                throw new DataNotFoundException("progamerId: " + progamerId + "에 해당하는 데이터가 존재하지 않습니다.");
+            }
 
             Pair<Team, Position> teamAndPositionKey = new Pair<>(team, position);
             if (nextLckEntityMap.containsKey(teamAndPositionKey)) {
