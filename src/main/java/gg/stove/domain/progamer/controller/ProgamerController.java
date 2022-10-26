@@ -38,7 +38,7 @@ public class ProgamerController {
 
     @AdminCheck
     @PutMapping("/api/v1/progamers/{progamerId}")
-    public void updateProgmaer(@PathVariable Long progamerId, @RequestBody @Valid UpdateProgamerRequest request) {
+    public void updateProgamer(@PathVariable Long progamerId, @RequestBody @Valid UpdateProgamerRequest request) {
         progamerService.updateProgamer(progamerId, request);
     }
 
