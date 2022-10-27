@@ -37,6 +37,7 @@ class UserServiceTest {
         // given
         SignupRequest signupRequest = SignupRequest.builder()
             .email("email@email.com")
+            .nickname("nickname")
             .password("password")
             .build();
 

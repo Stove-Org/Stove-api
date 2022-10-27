@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,6 +36,17 @@ public class UserController {
     public void signup(@RequestBody @Valid SignupRequest signupRequest) {
         userService.signup(signupRequest);
     }
+
+    @GetMapping("/api/v1/users/validate-email/{email}")
+    public void validateEmail(@PathVariable String email) {
+        userService.validateEmail(email);
+    }
+
+    @GetMapping("/api/v1/users/validate-nickname/{nickname}")
+    public void validateNickname(@PathVariable String nickname) {
+        userService.validateNickname(nickname);
+    }
+
 
     @PostMapping("/api/v1/users/login")
     public String login(@RequestBody @Valid LoginRequest loginRequest) {

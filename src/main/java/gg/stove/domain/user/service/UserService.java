@@ -24,13 +24,25 @@ public class UserService {
     @Transactional
     public void signup(@NonNull SignupRequest signupRequest) {
         String email = signupRequest.getEmail();
-        if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException();
-        }
+        String nickname = signupRequest.getNickname();
+        validateEmail(email);
+        validateNickname(nickname);
 
         String encodePassword = bCryptPasswordEncoder.encode(signupRequest.getPassword());
         UserEntity userEntity = new UserEntity(email, encodePassword, signupRequest.getNickname());
         userRepository.save(userEntity);
+    }
+
+    public void validateEmail(String email) {
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("중복된 이메일 입니다.");
+        }
+    }
+
+    public void validateNickname(String nickname) {
+        if (userRepository.existsByNickname(nickname)) {
+            throw new IllegalArgumentException("중복된 닉네임 입니다.");
+        }
     }
 
     public String login(@NonNull LoginRequest loginRequest) {
