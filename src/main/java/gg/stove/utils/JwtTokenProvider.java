@@ -18,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtTokenProvider {
     @Value("${jwt.secret}")
     private String JWT_SECRET;
-    private final int JWT_EXPIRATION_MS = 604800000;
+    // 2주
+    private final long JWT_EXPIRATION_MS = 86400000 * 14;
 
     public String generateToken(Long memberId) {
         Date now = new Date();
