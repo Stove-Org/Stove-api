@@ -2,6 +2,7 @@ package gg.stove.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.NoSuchElementException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return errorResponse(e, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(value = {DataNotFoundException.class})
+    @ExceptionHandler(value = {DataNotFoundException.class, NoSuchElementException.class})
     protected ResponseEntity<ErrorResponse> notFoundHandler(RuntimeException e) {
         return errorResponse(e, HttpStatus.NOT_FOUND);
     }
