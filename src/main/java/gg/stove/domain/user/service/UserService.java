@@ -35,13 +35,13 @@ public class UserService {
 
     public void validateEmail(String email) {
         if (userRepository.existsByEmail(email)) {
-            throw new IllegalArgumentException("중복된 이메일 입니다.");
+            throw new IllegalArgumentException("중복된 이메일입니다.");
         }
     }
 
     public void validateNickname(String nickname) {
         if (userRepository.existsByNickname(nickname)) {
-            throw new IllegalArgumentException("중복된 닉네임 입니다.");
+            throw new IllegalArgumentException("중복된 닉네임입니다.");
         }
     }
 
