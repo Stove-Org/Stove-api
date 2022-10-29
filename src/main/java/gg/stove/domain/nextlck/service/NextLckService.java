@@ -22,7 +22,10 @@ import gg.stove.domain.team.Team;
 import gg.stove.domain.user.entity.UserEntity;
 import gg.stove.domain.user.repository.UserRepository;
 import gg.stove.exception.DataNotFoundException;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+
+import static gg.stove.utils.EnumUser.DEFAULT_USER;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,22 @@ public class NextLckService {
 
     public List<NextLckViewResponse> loadNextLck(Long userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+        List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUserWithPlayers(userEntity);
+
+        if (nextLckEntities.isEmpty()) {
+            UserEntity defaultUser = userRepository.findById(DEFAULT_USER.getId()).orElseThrow();
+            nextLckEntities = nextLckRepository.findAllByUserWithPlayers(defaultUser);
+        }
+
+        return nextLckEntities.stream()
+            .map(NextLckViewResponse::of)
+            .collect(Collectors.toList());
+    }
+
+    public List<NextLckViewResponse> loadNextLck(@NonNull String nickname) {
+        UserEntity userEntity = userRepository.findByNickname(nickname).orElseThrow(
+            () -> new DataNotFoundException("존재하지 않는 nickname입니다.")
+        );
         List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUserWithPlayers(userEntity);
 
         return nextLckEntities.stream()
