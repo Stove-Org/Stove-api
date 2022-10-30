@@ -11,4 +11,5 @@ public interface NextLckRepository extends JpaRepository<NextLckEntity, Long>, N
 
     List<NextLckEntity> findAllByUser(UserEntity user);
 
+    void deleteAllByUser(UserEntity user);
 }
