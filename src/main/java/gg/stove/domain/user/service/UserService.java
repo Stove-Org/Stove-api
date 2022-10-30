@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import gg.stove.domain.nextlck.repository.NextLckRepository;
 import gg.stove.domain.user.dto.LoginRequest;
 import gg.stove.domain.user.dto.ResetNicknameRequest;
 import gg.stove.domain.user.dto.ResetPasswordRequest;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final NextLckRepository nextLckRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -72,5 +74,15 @@ public class UserService {
     public void resetNickname(Long userId, ResetNicknameRequest request) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();
         userEntity.updateNickname(request.getNickname());
+    }
+
+    @Transactional
+    public void withdrawal(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow();
+
+        // nextlck 삭제
+        nextLckRepository.deleteAllByUser(userEntity);
+
+        userRepository.delete(userEntity);
     }
 }
