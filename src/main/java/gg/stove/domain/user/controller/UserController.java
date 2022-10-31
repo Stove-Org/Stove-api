@@ -48,6 +48,12 @@ public class UserController {
         userService.validateNickname(nickname);
     }
 
+    @LoginCheck
+    @PostMapping("/api/v1/users/validate-password/{password}")
+    public void validatePassword(@AuthenticationPrincipal AuthUser user, @PathVariable String password) {
+        userService.validatePassword(user.getId(), password);
+    }
+
 
     @PostMapping("/api/v1/users/login")
     public String login(@RequestBody @Valid LoginRequest loginRequest) {

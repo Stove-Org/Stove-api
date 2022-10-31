@@ -48,6 +48,13 @@ public class UserService {
         }
     }
 
+    public void validatePassword(Long id, String password) {
+        UserEntity userEntity = userRepository.findById(id).orElseThrow();
+        if (!bCryptPasswordEncoder.matches(password, userEntity.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
     public String login(@NonNull LoginRequest loginRequest) {
         UserEntity userEntity = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(
             () -> new DataNotFoundException("존재하지 않는 이메일입니다.")
@@ -62,10 +69,6 @@ public class UserService {
     @Transactional
     public void resetPassword(Long userId, ResetPasswordRequest request) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow();
-        if (!bCryptPasswordEncoder.matches(request.getCurrentPassword(), userEntity.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
-
         String encodePassword = bCryptPasswordEncoder.encode(request.getNewPassword());
         userEntity.updatePassword(encodePassword);
     }

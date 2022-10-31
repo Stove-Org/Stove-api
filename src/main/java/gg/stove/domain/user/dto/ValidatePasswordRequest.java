@@ -7,8 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class ResetPasswordRequest {
-
+public class ValidatePasswordRequest {
     @NotBlank
-    private String newPassword;
+    private String password;
 }
