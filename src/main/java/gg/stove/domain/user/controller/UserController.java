@@ -17,6 +17,7 @@ import gg.stove.domain.user.dto.ResetNicknameRequest;
 import gg.stove.domain.user.dto.ResetPasswordRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.dto.UserInfoView;
+import gg.stove.domain.user.dto.ValidatePasswordRequest;
 import gg.stove.domain.user.model.AuthUser;
 import gg.stove.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,9 +50,9 @@ public class UserController {
     }
 
     @LoginCheck
-    @PostMapping("/api/v1/users/validate-password/{password}")
-    public void validatePassword(@AuthenticationPrincipal AuthUser user, @PathVariable String password) {
-        userService.validatePassword(user.getId(), password);
+    @PostMapping("/api/v1/users/validate-password")
+    public void validatePassword(@AuthenticationPrincipal AuthUser user, @RequestBody ValidatePasswordRequest request) {
+        userService.validatePassword(user.getId(), request.getPassword());
     }
 
 
