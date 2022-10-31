@@ -10,8 +10,5 @@ import lombok.Getter;
 public class ResetPasswordRequest {
 
     @NotBlank
-    private String currentPassword;
-
-    @NotBlank
     private String newPassword;
 }
