@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import gg.stove.auth.annotation.AdminCheck;
 import gg.stove.auth.annotation.LoginCheck;
 import gg.stove.domain.user.dto.LoginRequest;
 import gg.stove.domain.user.dto.ResetNicknameRequest;
@@ -79,4 +80,8 @@ public class UserController {
     public void withdrawal(@AuthenticationPrincipal AuthUser user) {
         userService.withdrawal(user.getId());
     }
+
+    @AdminCheck
+    @GetMapping("/api/v1/users/admin-check")
+    public void adminCheck() {}
 }
