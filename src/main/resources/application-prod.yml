@@ -22,3 +22,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+feign:
+  naver-search:
+    url: https://openapi.naver.com/v1/search
