@@ -67,4 +67,9 @@ public class NewsController {
     public void increaseViewCount(@PathVariable Long newsId) {
         newsService.increaseViewCount(newsId);
     }
+
+    @PostMapping("/api/v1/news/sync-naver-news")
+    public void syncNaverNews() {
+        newsService.syncNaverNews();
+    }
 }
