@@ -1,10 +1,12 @@
 package gg.stove.domain.news.service;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
@@ -16,6 +18,8 @@ import gg.stove.cache.annotation.RedisCacheEvicts;
 import gg.stove.cache.annotation.RedisCacheable;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
+import gg.stove.domain.news.dto.NaverSearchNewsResponse;
+import gg.stove.domain.news.dto.NaverSearchNewsResponseItem;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.UpdatedNewsRequest;
 import gg.stove.domain.news.entity.NewsEntity;
@@ -29,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class NewsService {
 
     private final NewsRepository newsRepository;
+    private final NaverSearchService naverSearchService;
 
     @Transactional
     @RedisCacheEvicts(evicts = {
@@ -93,5 +98,27 @@ public class NewsService {
         return entryList.stream()
             .map(entry -> new HotNewsViewResponse(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Lck 관련 뉴스 100개를 긁어와, 일주일 이내 기사들 중 존재하지 않는 link들을 가져온다.
+     */
+    public void syncNaverNews() {
+        NaverSearchNewsResponse news = naverSearchService.getNews("lck", 100, 1, "date");
+        List<NaverSearchNewsResponseItem> items = news.getItems();
+        LocalDateTime weekAgo = LocalDateTime.now().minusDays(7);
+
+        Set<String> set = newsRepository.findAllByUpdatedAtAfter(weekAgo).stream()
+            .map(NewsEntity::getLinkUrl)
+            .collect(Collectors.toSet());
+
+        List<NewsEntity> newsEntities = items.stream()
+            .map(NaverSearchNewsResponseItem::toNewsEntity)
+            .takeWhile(newsEntity -> !weekAgo.isAfter(newsEntity.getUploadedAt()))
+            .filter(newsEntity -> !set.contains(newsEntity.getLinkUrl()))
+            .collect(Collectors.toList());
+
+        newsRepository.saveAll(newsEntities);
     }
 }

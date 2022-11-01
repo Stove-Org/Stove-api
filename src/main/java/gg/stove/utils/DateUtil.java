@@ -12,6 +12,9 @@ public class DateUtil {
     public static final DateTimeFormatter DATE_TIME_FORMATTER_WITH_WEEK =
         DateTimeFormatter.ofPattern("yyyy.MM.dd a hh:mm").withLocale(Locale.KOREA);
 
+    public static final DateTimeFormatter DATE_TIME_FORMATTER_NAVER_NEWS =
+        DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss").withLocale(Locale.US);
+
     public static int SECOND_PER_DAY = 86400;
 
     public static LocalDateTime convertWithUntilMinuteString(String s) {
@@ -23,5 +26,9 @@ public class DateUtil {
 
     public static long getUntilDayFromToday(LocalDateTime localDateTime) {
         return Duration.between(localDateTime, LocalDateTime.now()).getSeconds() / SECOND_PER_DAY;
+    }
+
+    public static LocalDateTime convertByNaverNewsDate(String date) {
+        return LocalDateTime.parse(date.replace("+0900", "").strip(), DATE_TIME_FORMATTER_NAVER_NEWS);
     }
 }
