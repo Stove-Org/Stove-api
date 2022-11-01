@@ -51,7 +51,7 @@ public class UserController {
 
     @LoginCheck
     @PostMapping("/api/v1/users/validate-password")
-    public void validatePassword(@AuthenticationPrincipal AuthUser user, @RequestBody ValidatePasswordRequest request) {
+    public void validatePassword(@AuthenticationPrincipal AuthUser user, @RequestBody @Valid ValidatePasswordRequest request) {
         userService.validatePassword(user.getId(), request.getPassword());
     }
 

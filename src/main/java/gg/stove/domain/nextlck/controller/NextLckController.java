@@ -2,6 +2,8 @@ package gg.stove.domain.nextlck.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,7 @@ public class NextLckController {
 
     @LoginCheck
     @PostMapping("/api/v1/next_lck")
-    public void saveNextLck(@AuthenticationPrincipal AuthUser user, @RequestBody List<NextLckSaveRequest> request) {
+    public void saveNextLck(@AuthenticationPrincipal AuthUser user, @RequestBody @Valid List<NextLckSaveRequest> request) {
         nextLckService.saveNextLck(user.getId(), request);
     }
 
@@ -56,7 +58,7 @@ public class NextLckController {
 
     @AdminCheck
     @PostMapping("/api/v1/next_lck/default")
-    public void saveDefaultNextLck(@RequestBody List<NextLckSaveRequest> request) {
+    public void saveDefaultNextLck(@RequestBody @Valid List<NextLckSaveRequest> request) {
         nextLckService.saveNextLck(DEFAULT_USER.getId(), request);
     }
 
