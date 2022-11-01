@@ -17,3 +17,9 @@ spring:
 
 jwt:
   secret: secret
+
+feign:
+  naver-search:
+    url: url
+    client-id: id
+    client-secret: secret
