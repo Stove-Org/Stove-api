@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import com.querydsl.core.annotations.QueryProjection;
+import gg.stove.domain.hashtags.dto.HashtagListView;
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.DateUtil;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,8 @@ public class NewsViewResponse implements Serializable {
     private String imgUrl;
 
     private String uploadedAt;
+
+    private HashtagListView hashtagListView;
 
     @QueryProjection
     public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt) {
