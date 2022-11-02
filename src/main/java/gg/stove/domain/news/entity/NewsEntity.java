@@ -88,6 +88,11 @@ public class NewsEntity {
         if (isPublished != null) {
             this.isPublished = isPublished;
         }
+
+        Long viewCount = request.getViewsCount();
+        if (viewCount != null) {
+            this.viewCount = viewCount;
+        }
     }
 
     public void increaseViewCount() {

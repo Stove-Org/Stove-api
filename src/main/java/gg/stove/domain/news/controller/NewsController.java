@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import gg.stove.auth.annotation.AdminCheck;
+import gg.stove.domain.news.dto.AdminNewsViewResponse;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
 import gg.stove.domain.news.dto.NewsViewResponse;
@@ -29,13 +30,23 @@ import lombok.RequiredArgsConstructor;
 public class NewsController {
     private final NewsService newsService;
 
-    @GetMapping("/api/v1/news")
-    public Page<NewsViewResponse> getNews(
+    @GetMapping("/api/v1/news/published")
+    public Page<NewsViewResponse> getPublishedNews(
         @RequestParam(value = "offset", defaultValue = "0") Integer offset,
         @RequestParam(value = "limit", defaultValue = "10") Integer limit
     ) {
         Pageable pageable = PageRequest.of(offset, limit);
-        return newsService.getNewsPage(pageable);
+        return newsService.getPublishedNews(pageable);
+    }
+
+    @AdminCheck
+    @GetMapping("/api/v1/news/all")
+    public Page<AdminNewsViewResponse> getAllNews(
+        @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+        @RequestParam(value = "limit", defaultValue = "10") Integer limit
+    ) {
+        Pageable pageable = PageRequest.of(offset, limit);
+        return newsService.getAllNews(pageable);
     }
 
     @GetMapping("/api/v1/news/hot")

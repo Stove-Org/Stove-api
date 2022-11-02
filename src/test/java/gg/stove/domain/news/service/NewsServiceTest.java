@@ -52,12 +52,12 @@ class NewsServiceTest {
     }
 
     @Test
-    void getNewsPage() {
+    void getPublishedNews() {
         // given
         newsFactory.create();
 
         // when
-        Page<NewsViewResponse> newsPage = newsService.getNewsPage(PageRequest.of(0, 10));
+        Page<NewsViewResponse> newsPage = newsService.getPublishedNews(PageRequest.of(0, 10));
 
         // then
         then(newsPage.getTotalElements()).isEqualTo(1L);
@@ -66,7 +66,6 @@ class NewsServiceTest {
         then(newsViewResponse.getLinkUrl()).isEqualTo("linkUrl");
         then(newsViewResponse.getImgUrl()).isEqualTo("imgUrl");
         then(newsViewResponse.getUploadedAt()).isEqualTo("2022.12.01 오전 11:30");
-        then(newsViewResponse.getViewsCount()).isEqualTo(0);
     }
 
     @Test

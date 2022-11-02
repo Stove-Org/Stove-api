@@ -18,6 +18,7 @@ public class NewsFactory {
             .linkUrl("linkUrl")
             .imgUrl("imgUrl")
             .uploadedAt(LocalDateTime.of(2022, 12,1, 11, 30 )) // 2022-12-01 11:30
+            .isPublished(true)
             .build());
     }
 }

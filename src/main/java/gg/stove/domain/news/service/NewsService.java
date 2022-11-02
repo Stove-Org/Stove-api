@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import gg.stove.cache.annotation.RedisCacheEvict;
 import gg.stove.cache.annotation.RedisCacheEvicts;
 import gg.stove.cache.annotation.RedisCacheable;
+import gg.stove.domain.news.dto.AdminNewsViewResponse;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
 import gg.stove.domain.news.dto.NaverSearchNewsResponse;
@@ -37,7 +38,8 @@ public class NewsService {
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getPublishedNews"),
+        @RedisCacheEvict(key = "NewsService.getAllNews"),
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void createNews(CreateNewsRequest request) {
@@ -45,14 +47,20 @@ public class NewsService {
         newsRepository.save(newsEntity);
     }
 
-    @RedisCacheable(key = "NewsService.getNewsPage", expireSecond = 1800L)
-    public Page<NewsViewResponse> getNewsPage(Pageable pageable) {
-        return newsRepository.getNewsPage(pageable);
+    @RedisCacheable(key = "NewsService.getPublishedNews", expireSecond = 1800L)
+    public Page<NewsViewResponse> getPublishedNews(Pageable pageable) {
+        return newsRepository.getPublishedNews(pageable);
+    }
+
+    @RedisCacheable(key = "NewsService.getAllNews", expireSecond = 1800L)
+    public Page<AdminNewsViewResponse> getAllNews(Pageable pageable) {
+        return newsRepository.getAllNews(pageable);
     }
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getPublishedNews"),
+        @RedisCacheEvict(key = "NewsService.getAllNews"),
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void updateNews(Long newsId, UpdatedNewsRequest request) {
@@ -62,7 +70,8 @@ public class NewsService {
 
     @Transactional
     @RedisCacheEvicts(evicts = {
-        @RedisCacheEvict(key = "NewsService.getNewsPage"),
+        @RedisCacheEvict(key = "NewsService.getPublishedNews"),
+        @RedisCacheEvict(key = "NewsService.getAllNews"),
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void deleteNews(Long newsId) {
@@ -99,7 +108,6 @@ public class NewsService {
             .map(entry -> new HotNewsViewResponse(entry.getKey(), entry.getValue()))
             .collect(Collectors.toList());
     }
-
 
     /**
      * Lck 관련 뉴스 100개를 긁어와, 일주일 이내 기사들 중 존재하지 않는 link들을 가져온다.

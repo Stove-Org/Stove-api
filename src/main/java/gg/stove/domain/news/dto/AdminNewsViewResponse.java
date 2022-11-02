@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class NewsViewResponse implements Serializable {
+public class AdminNewsViewResponse implements Serializable {
 
     private Long id;
 
@@ -25,20 +25,28 @@ public class NewsViewResponse implements Serializable {
 
     private String uploadedAt;
 
+    private Long viewsCount;
+
+    private Boolean isPublished;
+
     @QueryProjection
-    public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt) {
+    public AdminNewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt, Long viewsCount, Boolean isPublished) {
         this.id = id;
         this.headline = headline;
         this.linkUrl = linkUrl;
         this.imgUrl = imgUrl;
         this.uploadedAt = DateUtil.convertToWithWeekString(uploadedAt);
+        this.viewsCount = viewsCount;
+        this.isPublished = isPublished;
     }
 
-    public NewsViewResponse(NewsEntity entity) {
+    public AdminNewsViewResponse(NewsEntity entity) {
         this.id = entity.getId();
         this.headline = entity.getHeadline();
         this.linkUrl = entity.getLinkUrl();
         this.imgUrl = entity.getImgUrl();
         this.uploadedAt = DateUtil.convertToWithWeekString(entity.getUploadedAt());
+        this.viewsCount = entity.getViewCount();
+        this.isPublished = entity.getIsPublished();
     }
 }

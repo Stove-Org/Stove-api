@@ -18,4 +18,6 @@ public class UpdatedNewsRequest {
     private String uploadedAt;
 
     private Boolean isPublished;
+
+    private Long viewsCount;
 }

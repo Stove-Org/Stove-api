@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import gg.stove.domain.news.dto.AdminNewsViewResponse;
 import gg.stove.domain.news.dto.NewsViewResponse;
+import gg.stove.domain.news.dto.QAdminNewsViewResponse;
 import gg.stove.domain.news.dto.QNewsViewResponse;
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.CustomPageImpl;
@@ -26,7 +28,32 @@ public class NewsCustomRepositoryImpl extends QuerydslRepositorySupport implemen
     }
 
     @Override
-    public Page<NewsViewResponse> getNewsPage(Pageable pageable) {
+    public Page<AdminNewsViewResponse> getAllNews(Pageable pageable) {
+        JPQLQuery<NewsEntity> countQuery = jpaQueryFactory
+            .selectFrom(newsEntity);
+
+        List<AdminNewsViewResponse> results = countQuery
+            .select(
+                new QAdminNewsViewResponse(
+                    newsEntity.id,
+                    newsEntity.headline,
+                    newsEntity.linkUrl,
+                    newsEntity.imgUrl,
+                    newsEntity.uploadedAt,
+                    newsEntity.viewCount,
+                    newsEntity.isPublished
+                )
+            )
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .orderBy(newsEntity.uploadedAt.desc())
+            .fetch();
+
+        return new CustomPageImpl<>(results, pageable, countQuery.fetchCount());
+    }
+
+    @Override
+    public Page<NewsViewResponse> getPublishedNews(Pageable pageable) {
         JPQLQuery<NewsEntity> countQuery = jpaQueryFactory
             .selectFrom(newsEntity);
 
@@ -37,14 +64,16 @@ public class NewsCustomRepositoryImpl extends QuerydslRepositorySupport implemen
                     newsEntity.headline,
                     newsEntity.linkUrl,
                     newsEntity.imgUrl,
-                    newsEntity.uploadedAt,
-                    newsEntity.viewCount
+                    newsEntity.uploadedAt
                 )
             )
+            .where(newsEntity.isPublished.isTrue())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
+            .orderBy(newsEntity.uploadedAt.desc())
             .fetch();
 
         return new CustomPageImpl<>(results, pageable, countQuery.fetchCount());
     }
+
 }
