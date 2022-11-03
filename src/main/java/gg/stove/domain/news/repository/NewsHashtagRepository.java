@@ -13,6 +13,7 @@ public interface NewsHashtagRepository extends JpaRepository<NewsHashtagEntity, 
     List<NewsHashtagEntity> findAllByNewsEntity(NewsEntity newsEntity);
 
     void deleteAllByNewsEntityAndHashtag(NewsEntity newsEntity, HashtagEntity hashtagEntity);
+    void deleteAllByNewsEntity(NewsEntity newsEntity);
 
     boolean existsByHashtag(HashtagEntity hashtagEntity);
 }

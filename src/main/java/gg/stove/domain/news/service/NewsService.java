@@ -111,8 +111,12 @@ public class NewsService {
             .filter(hashtagEntity -> !hashtagEntities.contains(hashtagEntity))
             .collect(Collectors.toList());
 
-        List<HashtagEntity> createHashtagEntities = hashtagRepository.saveAll(newHashtags);
-        List<NewsHashtagEntity> newsHashtagEntities = createHashtagEntities.stream()
+        List<HashtagEntity> existsHashtags = hashtagRepository.findAllByHashtagIn(hashtags);
+        newHashtags.removeAll(existsHashtags);
+        List<HashtagEntity> createHashtags = hashtagRepository.saveAll(newHashtags);
+
+        createHashtags.addAll(existsHashtags);
+        List<NewsHashtagEntity> newsHashtagEntities = createHashtags.stream()
             .map(createHashtagEntity -> NewsHashtagEntity.builder()
                 .newsEntity(newsEntity)
                 .hashtag(createHashtagEntity)
@@ -141,6 +145,15 @@ public class NewsService {
     })
     public void deleteNews(Long newsId) {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
+
+        Set<HashtagEntity> hashtagEntities = newsHashtagRepository.findAllByNewsEntity(newsEntity).stream()
+            .map(NewsHashtagEntity::getHashtag).collect(Collectors.toSet());
+        newsHashtagRepository.deleteAllByNewsEntity(newsEntity);
+
+        List<HashtagEntity> removeHashtags = hashtagEntities.stream()
+            .filter(h -> !newsHashtagRepository.existsByHashtag(h))
+            .collect(Collectors.toList());
+        hashtagRepository.deleteAll(removeHashtags);
         newsRepository.delete(newsEntity);
     }
 
