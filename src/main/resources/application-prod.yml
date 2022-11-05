@@ -28,6 +28,7 @@ spring:
       validation-timeout: 10000
       max-lifetime: 580000
       connection-init-sql: set wait_timeout = 600
+      leak-detection-threshold: 2000
 
 feign:
   naver-search:
