@@ -22,6 +22,12 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 10000
+      validation-timeout: 10000
+      max-lifetime: 580000
+      connection-init-sql: set wait_timeout = 600
 
 feign:
   naver-search:
