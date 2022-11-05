@@ -2,10 +2,10 @@ package gg.stove.domain.nextlck.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.domain.nextlck.dto.NextLckSaveRequest;
 import gg.stove.domain.nextlck.dto.NextLckViewResponse;
 import gg.stove.domain.nextlck.entity.NextLckEntity;

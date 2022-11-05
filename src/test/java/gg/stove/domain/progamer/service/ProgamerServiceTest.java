@@ -2,10 +2,10 @@ package gg.stove.domain.progamer.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.domain.progamer.dto.CareerDto;
 import gg.stove.domain.progamer.dto.CreateProgamerRequest;
 import gg.stove.domain.progamer.dto.ProgamerViewResponse;

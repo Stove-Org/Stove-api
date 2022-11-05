@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.mysema.commons.lang.Pair;
 import gg.stove.cache.annotation.RedisCacheable;
 import gg.stove.domain.nextlck.dto.NextLckSaveRequest;

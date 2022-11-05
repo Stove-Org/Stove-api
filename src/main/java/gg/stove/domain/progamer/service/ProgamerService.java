@@ -2,9 +2,9 @@ package gg.stove.domain.progamer.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.cache.annotation.RedisCacheEvict;
 import gg.stove.cache.annotation.RedisCacheable;
 import gg.stove.domain.progamer.dto.CreateProgamerRequest;

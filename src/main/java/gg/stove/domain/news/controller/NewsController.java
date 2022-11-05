@@ -79,6 +79,7 @@ public class NewsController {
         newsService.increaseViewCount(newsId);
     }
 
+    @AdminCheck
     @PostMapping("/api/v1/news/sync-naver-news")
     public void syncNaverNews() {
         newsService.syncNaverNews();

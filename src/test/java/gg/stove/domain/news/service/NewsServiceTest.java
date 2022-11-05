@@ -1,12 +1,12 @@
 package gg.stove.domain.news.service;
 
 import java.time.LocalDateTime;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.UpdatedNewsRequest;

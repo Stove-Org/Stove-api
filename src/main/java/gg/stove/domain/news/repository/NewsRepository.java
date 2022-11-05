@@ -10,4 +10,5 @@ import gg.stove.domain.news.entity.NewsEntity;
 public interface NewsRepository extends JpaRepository<NewsEntity, Long>, NewsCustomRepository {
 
     List<NewsEntity> findAllByUpdatedAtAfter(LocalDateTime localDateTime);
+    List<NewsEntity> findAllByIsPublishedTrue();
 }

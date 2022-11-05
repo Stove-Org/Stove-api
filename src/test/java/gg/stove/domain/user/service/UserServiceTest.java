@@ -1,10 +1,10 @@
 package gg.stove.domain.user.service;
 
 import java.util.List;
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.domain.user.dto.LoginRequest;
 import gg.stove.domain.user.dto.SignupRequest;
 import gg.stove.domain.user.entity.Authority;

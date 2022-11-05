@@ -25,6 +25,12 @@ spring:
     url: jdbc:mysql://localhost:3306/stove?serverTimezone=Asia/Seoul
     username: root
     password:
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 10000
+      validation-timeout: 10000
+      max-lifetime: 580000
+      connection-init-sql: set wait_timeout = 600
 
 feign:
   naver-search:

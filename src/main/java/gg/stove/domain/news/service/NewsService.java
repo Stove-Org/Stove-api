@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import gg.stove.cache.annotation.RedisCacheEvict;
 import gg.stove.cache.annotation.RedisCacheEvicts;
 import gg.stove.cache.annotation.RedisCacheable;
@@ -81,11 +81,13 @@ public class NewsService {
         newsHashtagRepository.saveAll(newsHashtagEntities);
     }
 
+    @Transactional(readOnly = true)
     @RedisCacheable(key = "NewsService.getPublishedNews", expireSecond = 1800L)
     public Page<NewsViewResponse> getPublishedNews(Pageable pageable) {
         return newsRepository.getPublishedNews(pageable);
     }
 
+    @Transactional(readOnly = true)
     @RedisCacheable(key = "NewsService.getAllNews", expireSecond = 1800L)
     public Page<AdminNewsViewResponse> getAllNews(Pageable pageable) {
         return newsRepository.getAllNews(pageable);
@@ -164,9 +166,10 @@ public class NewsService {
         newsEntity.increaseViewCount();
     }
 
+    @Transactional(readOnly = true)
     @RedisCacheable(key = "NewsService.getHotNews", expireSecond = 1800L)
     public List<HotNewsViewResponse> getHotNews() {
-        List<NewsEntity> newsEntities = newsRepository.findAll();
+        List<NewsEntity> newsEntities = newsRepository.findAllByIsPublishedTrue();
 
         Map<NewsEntity, Long> newHotScoreMap = new HashMap<>();
         for (NewsEntity newsEntity : newsEntities) {
@@ -202,6 +205,10 @@ public class NewsService {
     /**
      * Lck 관련 뉴스 100개를 긁어와, 일주일 이내 기사들 중 존재하지 않는 link들을 가져온다.
      */
+    @Transactional
+    @RedisCacheEvicts(evicts = {
+        @RedisCacheEvict(key = "NewsService.getAllNews")
+    })
     public void syncNaverNews() {
         NaverSearchNewsResponse news = naverSearchService.getNews("lck", 100, 1, "date");
         List<NaverSearchNewsResponseItem> items = news.getItems();
