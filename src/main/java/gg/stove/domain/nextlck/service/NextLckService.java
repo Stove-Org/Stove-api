@@ -63,7 +63,11 @@ public class NextLckService {
     public void saveNextLck(Long userId, List<NextLckSaveRequest> request) {
         UserEntity user = userRepository.findById(userId).orElseThrow();
 
-        Map<Pair<Team, Position>, NextLckEntity> nextLckEntityMap = nextLckRepository.findAllByUser(user).stream()
+        List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUser(user);
+        Map<Pair<Team, Position>, NextLckEntity> nextLckEntityMap = nextLckEntities.stream()
+            .collect(Collectors.toMap(nextLck -> new Pair<>(Team.of(nextLck.getTeamId()), nextLck.getPosition()), nextLck -> nextLck));
+
+        Map<Pair<Team, Position>, NextLckEntity> deleteNextLck = nextLckEntities.stream()
             .collect(Collectors.toMap(nextLck -> new Pair<>(Team.of(nextLck.getTeamId()), nextLck.getPosition()), nextLck -> nextLck));
 
         Set<NextLckEntity> insertNextLcks = new HashSet<>();
@@ -84,6 +88,7 @@ public class NextLckService {
             Pair<Team, Position> teamAndPositionKey = new Pair<>(team, position);
             if (nextLckEntityMap.containsKey(teamAndPositionKey)) {
                 nextLckEntityMap.get(teamAndPositionKey).update(progamerEntity);
+                deleteNextLck.remove(teamAndPositionKey);
             } else {
                 insertNextLcks.add(
                     NextLckEntity.builder()
@@ -96,6 +101,7 @@ public class NextLckService {
             }
         }
 
+        nextLckRepository.deleteAll(deleteNextLck.values());
         nextLckRepository.saveAll(insertNextLcks);
     }
 

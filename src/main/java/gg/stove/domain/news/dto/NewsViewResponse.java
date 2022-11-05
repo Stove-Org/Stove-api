@@ -2,9 +2,10 @@ package gg.stove.domain.news.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.querydsl.core.annotations.QueryProjection;
-import gg.stove.domain.hashtags.dto.HashtagListView;
+import gg.stove.domain.hashtags.dto.HashtagView;
 import gg.stove.domain.news.entity.NewsEntity;
 import gg.stove.utils.DateUtil;
 import lombok.AllArgsConstructor;
@@ -26,15 +27,16 @@ public class NewsViewResponse implements Serializable {
 
     private String uploadedAt;
 
-    private HashtagListView hashtagListView;
+    private List<HashtagView> hashtagViews;
 
     @QueryProjection
-    public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt) {
+    public NewsViewResponse(Long id, String headline, String linkUrl, String imgUrl, LocalDateTime uploadedAt, List<HashtagView> hashtagViews) {
         this.id = id;
         this.headline = headline;
         this.linkUrl = linkUrl;
         this.imgUrl = imgUrl;
         this.uploadedAt = DateUtil.convertToWithWeekString(uploadedAt);
+        this.hashtagViews = hashtagViews;
     }
 
     public NewsViewResponse(NewsEntity entity) {

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import gg.stove.cache.annotation.RedisCacheEvict;
 import gg.stove.cache.annotation.RedisCacheEvicts;
 import gg.stove.cache.annotation.RedisCacheable;
+import gg.stove.domain.hashtags.dto.HashtagView;
 import gg.stove.domain.hashtags.entity.HashtagEntity;
 import gg.stove.domain.hashtags.repository.HashtagRepository;
 import gg.stove.domain.news.dto.AdminNewsViewResponse;
@@ -182,8 +183,19 @@ public class NewsService {
             entryList = entryList.subList(0, 10);
         }
 
+        List<Long> newsIds = entryList.stream()
+            .map(i -> i.getKey().getId())
+            .collect(Collectors.toList());
+
+        Map<Long, List<HashtagView>> hashtagViewMap = newsRepository.getHashtagViewMapByNewsIds(newsIds);
+
         return entryList.stream()
-            .map(entry -> new HotNewsViewResponse(entry.getKey(), entry.getValue()))
+            .map(entry -> {
+                NewsEntity news = entry.getKey();
+                Long score = entry.getValue();
+                List<HashtagView> hashtagViews = hashtagViewMap.get(news.getId());
+                return new HotNewsViewResponse(news, score, hashtagViews);
+            })
             .collect(Collectors.toList());
     }
 

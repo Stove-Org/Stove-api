@@ -1,11 +1,14 @@
 package gg.stove.domain.news.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import gg.stove.domain.news.dto.UpdatedNewsRequest;
@@ -45,6 +48,9 @@ public class NewsEntity {
 
     @Column(name = "uploaded_at")
     private LocalDateTime uploadedAt;
+
+    @OneToMany(mappedBy = "newsEntity")
+    private Set<NewsHashtagEntity> newsHashtagEntities = new HashSet<>();
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
