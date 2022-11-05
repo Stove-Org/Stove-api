@@ -29,6 +29,11 @@ public class ProgamerController {
         return progamerService.getProgamers();
     }
 
+    @GetMapping("/api/v1/progamers/{progamerId}")
+    public ProgamerViewResponse getProgamer(@PathVariable Long progamerId) {
+        return progamerService.getProgamer(progamerId);
+    }
+
     @AdminCheck
     @PostMapping(value = "/api/v1/progamers")
     @ResponseStatus(HttpStatus.CREATED)

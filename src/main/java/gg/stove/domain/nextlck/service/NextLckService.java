@@ -43,9 +43,7 @@ public class NextLckService {
             nextLckEntities = nextLckRepository.findAllByUserWithPlayers(defaultUser);
         }
 
-        return nextLckEntities.stream()
-            .map(NextLckViewResponse::of)
-            .collect(Collectors.toList());
+        return NextLckViewResponse.of(nextLckEntities);
     }
 
     public List<NextLckViewResponse> loadNextLck(@NonNull String nickname) {
@@ -53,10 +51,7 @@ public class NextLckService {
             () -> new DataNotFoundException("존재하지 않는 nickname입니다.")
         );
         List<NextLckEntity> nextLckEntities = nextLckRepository.findAllByUserWithPlayers(userEntity);
-
-        return nextLckEntities.stream()
-            .map(NextLckViewResponse::of)
-            .collect(Collectors.toList());
+        return NextLckViewResponse.of(nextLckEntities);
     }
 
     @Transactional

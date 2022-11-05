@@ -43,30 +43,6 @@ class NextLckServiceTest {
     private NextLckRepository nextLckRepository;
 
     @Test
-    void loadNextLck() {
-        // given
-        UserEntity user = userFactory.create();
-        ProgamerEntity pro1 = progamerFactory.create();
-        nextLckFactory.create(user, Team.T1, Position.TOP, pro1);
-
-        ProgamerEntity pro2 = progamerFactory.create();
-        nextLckFactory.create(user, Team.DRX, Position.BOT, pro2);
-
-        // when
-        List<NextLckViewResponse> nextLckViewResponses = nextLckService.loadNextLck(user.getId());
-
-        // then
-        then(nextLckViewResponses.size()).isEqualTo(2L);
-        then(nextLckViewResponses.get(0).getTeam()).isEqualTo(Team.T1);
-        then(nextLckViewResponses.get(0).getPosition()).isEqualTo(Position.TOP);
-        then(nextLckViewResponses.get(0).getProgamer()).isEqualTo(new ProgamerViewResponse(pro1));
-
-        then(nextLckViewResponses.get(1).getTeam()).isEqualTo(Team.DRX);
-        then(nextLckViewResponses.get(1).getPosition()).isEqualTo(Position.BOT);
-        then(nextLckViewResponses.get(1).getProgamer()).isEqualTo(new ProgamerViewResponse(pro2));
-    }
-
-    @Test
     void saveNextLck() {
         // given
         UserEntity user = userFactory.create();

@@ -28,6 +28,13 @@ public class ProgamerService {
             .collect(Collectors.toList());
     }
 
+    public ProgamerViewResponse getProgamer(Long progamerId) {
+        ProgamerEntity progamer = progamerRepository.findById(progamerId).orElseThrow(
+            () -> new DataNotFoundException("progamerId에 해당하는 데이터가 존재하지 않습니다.")
+        );
+        return new ProgamerViewResponse(progamer);
+    }
+
     @Transactional
     @RedisCacheEvict(key = "ProgamerService.getProgamers")
     public void createProgamer(CreateProgamerRequest request) {
