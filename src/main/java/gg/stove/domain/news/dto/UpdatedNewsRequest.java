@@ -1,5 +1,8 @@
 package gg.stove.domain.news.dto;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,4 +23,6 @@ public class UpdatedNewsRequest {
     private Boolean isPublished;
 
     private Long viewsCount;
+
+    private final Set<String> hashtags = new HashSet<>();
 }

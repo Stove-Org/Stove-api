@@ -1,7 +1,6 @@
 package gg.stove.domain.nextlck.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -50,7 +49,6 @@ public class NextLckController {
         return nextLckService.getParticipantsCount();
     }
 
-    @AdminCheck
     @GetMapping("/api/v1/next_lck/default")
     public List<NextLckViewResponse> loadDefaultNextLck() {
         return nextLckService.loadNextLck(DEFAULT_USER.getId());

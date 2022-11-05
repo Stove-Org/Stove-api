@@ -1,5 +1,7 @@
 package gg.stove.domain.news.dto;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.NotBlank;
 
 import gg.stove.domain.news.entity.NewsEntity;
@@ -26,8 +28,9 @@ public class CreateNewsRequest {
     @Schema(type = "string", example = "2022-10-17 14:44")
     private String uploadedAt;
 
-    @NotBlank
-    private Boolean isPublished;
+    private final Boolean isPublished = false;
+
+    private final Set<String> hashtags = new HashSet<>();
 
     public NewsEntity toNewsEntity() {
         return NewsEntity.builder()

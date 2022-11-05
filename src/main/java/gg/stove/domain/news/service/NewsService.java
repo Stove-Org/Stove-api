@@ -3,6 +3,7 @@ package gg.stove.domain.news.service;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 import gg.stove.cache.annotation.RedisCacheEvict;
 import gg.stove.cache.annotation.RedisCacheEvicts;
 import gg.stove.cache.annotation.RedisCacheable;
+import gg.stove.domain.hashtags.dto.HashtagView;
+import gg.stove.domain.hashtags.entity.HashtagEntity;
+import gg.stove.domain.hashtags.repository.HashtagRepository;
 import gg.stove.domain.news.dto.AdminNewsViewResponse;
 import gg.stove.domain.news.dto.CreateNewsRequest;
 import gg.stove.domain.news.dto.HotNewsViewResponse;
@@ -24,6 +28,8 @@ import gg.stove.domain.news.dto.NaverSearchNewsResponseItem;
 import gg.stove.domain.news.dto.NewsViewResponse;
 import gg.stove.domain.news.dto.UpdatedNewsRequest;
 import gg.stove.domain.news.entity.NewsEntity;
+import gg.stove.domain.news.entity.NewsHashtagEntity;
+import gg.stove.domain.news.repository.NewsHashtagRepository;
 import gg.stove.domain.news.repository.NewsRepository;
 import gg.stove.exception.DataNotFoundException;
 import gg.stove.utils.DateUtil;
@@ -34,6 +40,8 @@ import lombok.RequiredArgsConstructor;
 public class NewsService {
 
     private final NewsRepository newsRepository;
+    private final HashtagRepository hashtagRepository;
+    private final NewsHashtagRepository newsHashtagRepository;
     private final NaverSearchService naverSearchService;
 
     @Transactional
@@ -45,6 +53,32 @@ public class NewsService {
     public void createNews(CreateNewsRequest request) {
         NewsEntity newsEntity = request.toNewsEntity();
         newsRepository.save(newsEntity);
+
+        Set<String> hashtags = request.getHashtags();
+        Set<HashtagEntity> hashtagEntities = new HashSet<>(hashtagRepository.findAllByHashtagIn(hashtags));
+
+        hashtagEntities.stream().map(HashtagEntity::getHashtag).forEach(hashtags::remove);
+
+        List<HashtagEntity> createHashtags = hashtags.stream()
+            .map(HashtagEntity::new)
+            .collect(Collectors.toList());
+
+        List<HashtagEntity> createHashtagEntities = hashtagRepository.saveAll(createHashtags);
+        List<NewsHashtagEntity> newsHashtagEntities = createHashtagEntities.stream()
+            .map(createHashtagEntity -> NewsHashtagEntity.builder()
+                .newsEntity(newsEntity)
+                .hashtag(createHashtagEntity)
+                .build()
+            ).collect(Collectors.toList());
+
+        hashtagEntities.stream()
+            .map(hashtagEntity -> NewsHashtagEntity.builder()
+                .newsEntity(newsEntity)
+                .hashtag(hashtagEntity)
+                .build()
+            ).forEach(newsHashtagEntities::add);
+
+        newsHashtagRepository.saveAll(newsHashtagEntities);
     }
 
     @RedisCacheable(key = "NewsService.getPublishedNews", expireSecond = 1800L)
@@ -64,8 +98,44 @@ public class NewsService {
         @RedisCacheEvict(key = "NewsService.getHotNews"),
     })
     public void updateNews(Long newsId, UpdatedNewsRequest request) {
-        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
+        NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(
+            () -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다.")
+        );
         newsEntity.update(request);
+
+        Set<String> hashtags = request.getHashtags();
+        Set<HashtagEntity> hashtagEntities = newsHashtagRepository.findAllByNewsEntity(newsEntity).stream()
+            .map(NewsHashtagEntity::getHashtag).collect(Collectors.toSet());
+
+        List<HashtagEntity> newHashtags = hashtags.stream()
+            .map(h -> HashtagEntity.builder().hashtag(h).build())
+            .filter(hashtagEntity -> !hashtagEntities.contains(hashtagEntity))
+            .collect(Collectors.toList());
+
+        List<HashtagEntity> existsHashtags = hashtagRepository.findAllByHashtagIn(hashtags);
+        newHashtags.removeAll(existsHashtags);
+        List<HashtagEntity> createHashtags = hashtagRepository.saveAll(newHashtags);
+
+        createHashtags.addAll(existsHashtags);
+        List<NewsHashtagEntity> newsHashtagEntities = createHashtags.stream()
+            .map(createHashtagEntity -> NewsHashtagEntity.builder()
+                .newsEntity(newsEntity)
+                .hashtag(createHashtagEntity)
+                .build()
+            ).collect(Collectors.toList());
+        newsHashtagRepository.saveAll(newsHashtagEntities);
+
+        List<HashtagEntity> excludeHashtags = hashtagEntities.stream()
+            .filter(hashtagEntity -> !hashtags.contains(hashtagEntity.getHashtag()))
+            .collect(Collectors.toList());
+
+        excludeHashtags.forEach(excludeHashtag -> newsHashtagRepository.deleteAllByNewsEntityAndHashtag(newsEntity, excludeHashtag));
+
+        List<HashtagEntity> removeHashtags = excludeHashtags.stream()
+            .filter(excludeHashtag -> !newsHashtagRepository.existsByHashtag(excludeHashtag))
+            .collect(Collectors.toList());
+
+        hashtagRepository.deleteAll(removeHashtags);
     }
 
     @Transactional
@@ -76,6 +146,15 @@ public class NewsService {
     })
     public void deleteNews(Long newsId) {
         NewsEntity newsEntity = newsRepository.findById(newsId).orElseThrow(() -> new DataNotFoundException("newsId에 해당하는 데이터가 존재하지 않습니다."));
+
+        Set<HashtagEntity> hashtagEntities = newsHashtagRepository.findAllByNewsEntity(newsEntity).stream()
+            .map(NewsHashtagEntity::getHashtag).collect(Collectors.toSet());
+        newsHashtagRepository.deleteAllByNewsEntity(newsEntity);
+
+        List<HashtagEntity> removeHashtags = hashtagEntities.stream()
+            .filter(h -> !newsHashtagRepository.existsByHashtag(h))
+            .collect(Collectors.toList());
+        hashtagRepository.deleteAll(removeHashtags);
         newsRepository.delete(newsEntity);
     }
 
@@ -104,8 +183,19 @@ public class NewsService {
             entryList = entryList.subList(0, 10);
         }
 
+        List<Long> newsIds = entryList.stream()
+            .map(i -> i.getKey().getId())
+            .collect(Collectors.toList());
+
+        Map<Long, List<HashtagView>> hashtagViewMap = newsRepository.getHashtagViewMapByNewsIds(newsIds);
+
         return entryList.stream()
-            .map(entry -> new HotNewsViewResponse(entry.getKey(), entry.getValue()))
+            .map(entry -> {
+                NewsEntity news = entry.getKey();
+                Long score = entry.getValue();
+                List<HashtagView> hashtagViews = hashtagViewMap.get(news.getId());
+                return new HotNewsViewResponse(news, score, hashtagViews);
+            })
             .collect(Collectors.toList());
     }
 
