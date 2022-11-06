@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RedisCacheable {
     String key();
-    long expireSecond() default 600L;
+    long expireSecond() default 120L;
 }
