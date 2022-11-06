@@ -1,13 +1,17 @@
 package gg.stove.domain.hashtags.dto;
 
+import java.io.Serializable;
+
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-public class HashtagView {
+@NoArgsConstructor
+public class HashtagView implements Serializable {
 
-    private final Long id;
-    private final String hashtag;
+    private Long id;
+    private String hashtag;
 
     @QueryProjection
     public HashtagView(Long id, String hashtag) {
