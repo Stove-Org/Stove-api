@@ -7,6 +7,7 @@ import gg.stove.domain.user.entity.UserEntity;
 
 public interface NextLckCustomRepository {
 
+    List<NextLckEntity> findAllWithPlayers();
     List<NextLckEntity> findAllByUserWithPlayers(UserEntity user);
     long countDistinctUser();
 }

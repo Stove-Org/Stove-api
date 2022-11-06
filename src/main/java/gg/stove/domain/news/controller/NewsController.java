@@ -39,7 +39,7 @@ public class NewsController {
         return newsService.getPublishedNews(pageable);
     }
 
-    @AdminCheck
+//    @AdminCheck
     @GetMapping("/api/v1/news/all")
     public Page<AdminNewsViewResponse> getAllNews(
         @RequestParam(value = "offset", defaultValue = "0") Integer offset,
@@ -79,7 +79,7 @@ public class NewsController {
         newsService.increaseViewCount(newsId);
     }
 
-    @AdminCheck
+//    @AdminCheck
     @PostMapping("/api/v1/news/sync-naver-news")
     public void syncNaverNews() {
         newsService.syncNaverNews();

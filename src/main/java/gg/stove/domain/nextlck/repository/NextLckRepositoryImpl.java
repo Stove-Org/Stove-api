@@ -22,6 +22,15 @@ public class NextLckRepositoryImpl extends QuerydslRepositorySupport implements 
     }
 
     @Override
+    public List<NextLckEntity> findAllWithPlayers() {
+        return jpaQueryFactory
+            .selectFrom(nextLckEntity)
+            .leftJoin(nextLckEntity.progamer, progamerEntity)
+            .fetchJoin()
+            .fetch();
+    }
+
+    @Override
     public List<NextLckEntity> findAllByUserWithPlayers(UserEntity user) {
         return jpaQueryFactory
             .selectFrom(nextLckEntity)

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import gg.stove.auth.annotation.AdminCheck;
 import gg.stove.auth.annotation.LoginCheck;
+import gg.stove.domain.nextlck.dto.NextLckRankingViewResponse;
 import gg.stove.domain.nextlck.dto.NextLckSaveRequest;
 import gg.stove.domain.nextlck.dto.NextLckViewResponse;
 import gg.stove.domain.nextlck.dto.ParticipantsCountResponseView;
@@ -63,5 +64,10 @@ public class NextLckController {
     @GetMapping("/api/v1/next_lck/share")
     public List<NextLckViewResponse> loadNextLckByNickname(@RequestParam String nickname) {
         return nextLckService.loadNextLck(nickname);
+    }
+
+    @GetMapping("/api/v1/next_lck/ranking")
+    public List<NextLckRankingViewResponse> getNextLckRanking() {
+        return nextLckService.getNextLckRanking();
     }
 }
