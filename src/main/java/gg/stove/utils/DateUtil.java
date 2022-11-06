@@ -13,7 +13,7 @@ public class DateUtil {
         DateTimeFormatter.ofPattern("yyyy.MM.dd a hh:mm").withLocale(Locale.KOREA);
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER_NAVER_NEWS =
-        DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss").withLocale(Locale.US);
+        DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z").withLocale(Locale.US);
 
     public static int SECOND_PER_DAY = 86400;
 
@@ -29,6 +29,6 @@ public class DateUtil {
     }
 
     public static LocalDateTime convertByNaverNewsDate(String date) {
-        return LocalDateTime.parse(date.replace("+0900", "").strip(), DATE_TIME_FORMATTER_NAVER_NEWS);
+        return LocalDateTime.parse(date, DATE_TIME_FORMATTER_NAVER_NEWS);
     }
 }
