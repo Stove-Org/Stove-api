@@ -43,7 +43,7 @@ public class NextLckViewResponse {
         Map<Pair<Team, Position>, NextLckEntity> dict = rosters.stream()
             .collect(Collectors.toMap(nextLck -> new Pair<>(Team.of(nextLck.getTeamId()), nextLck.getPosition()), nextLck -> nextLck));
 
-        List<Team> teams = List.of(Team.T1, Team.DRX, Team.GEN, Team.DK, Team.LSB, Team.KT, Team.KDF, Team.BRO, Team.HLE, Team.NS);
+        List<Team> teams = List.of(Team.DRX, Team.T1, Team.GEN, Team.DK, Team.LSB, Team.KT, Team.KDF, Team.NS, Team.BRO, Team.HLE);
         List<Position> positions = List.of(Position.TOP, Position.JGL, Position.MID, Position.BOT, Position.SPT);
 
         List<NextLckViewResponse> results = new ArrayList<>();
