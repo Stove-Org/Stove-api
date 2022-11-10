@@ -3,9 +3,6 @@ spring:
     active: local
 
 springdoc:
-  api-docs:
-    groups:
-      enabled: true
   swagger-ui:
     path: /swagger-ui.html
     displayRequestDuration: true

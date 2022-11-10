@@ -1,11 +1,16 @@
 package gg.stove.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.customizers.OpenApiCustomiser;
 
@@ -21,12 +26,24 @@ public class SwaggerConfig {
             .build();
     }
 
+    @Profile("local")
     @Bean
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI localOpenApi() {
         return new OpenAPI()
             .info(new Info().title("Stove Api")
                 .description("Stove Api Specifications.")
                 .version("v1.0.0"));
+    }
+
+    @Profile("!local")
+    @Bean
+    public OpenAPI OpenApi() {
+        return new OpenAPI()
+            .info(new Info().title("Stove Api")
+                .description("Stove Api Specifications.")
+                .version("v1.0.0")).servers(
+                    List.of(new Server().url("https://api.stove.gg"))
+            );
     }
 
     public OpenApiCustomiser buildSecurityOpenApi() {
