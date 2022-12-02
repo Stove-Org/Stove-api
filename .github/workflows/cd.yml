@@ -30,7 +30,6 @@ jobs:
 
       - name: docker build and push
         run: |
-          echo ${{ secrets.DOCKER_PASSWORD }}
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -t ${{ secrets.DOCKER_REPO }}/stove-api .
           docker push ${{ secrets.DOCKER_REPO }}/stove-api
